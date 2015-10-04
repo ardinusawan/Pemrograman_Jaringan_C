@@ -1,0 +1,19 @@
+Github setup is so easy with netbeans IDE. Follow the steps..
+
+1 - Go github and create a repository, and copy URL like https://github.com/akatkar/....
+
+2 - Open Netbeans IDE. If GIT plugin is not installed, install from tools/plugin
+
+3 - From Netbeans Team menu click clone
+
+4 - Paste your URL as repository URL, provide your github user name and password
+
+5 - Netbeans IDE will clone your repository and will ask to create a new application
+
+6 - Create an application and copy or create your source files in this application
+
+7 - Commit changes and push to the remote
+
+8 - DONE. Check from github your changes and enjoy...
+
+http://stackoverflow.com/questions/8456032/how-to-setup-github-repository-in-my-netbeans-ide
