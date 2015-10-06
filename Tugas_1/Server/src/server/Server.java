@@ -5,6 +5,7 @@
  */
 package server;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -18,10 +19,36 @@ import java.util.logging.Logger;
  * @author ardi
  */
 public class Server {
+    //fungsi2
+    public void lordMKDIR(String input)
+    {
+        File theDir = new File(input);
+        if (!theDir.exists()) 
+        {
+            System.out.println("creating directory: " + input);           //gaperlu
+            boolean result = false;
 
-    /**
-     * @param args the command line arguments
-     */
+            try{
+                theDir.mkdir();
+                result = true;
+            } 
+            catch(SecurityException se){
+                //handle it
+            }        
+            if(result) {    
+                System.out.println("DIR created");                      //print ke file output
+            }
+        }
+    }
+    public static void lordLS(final File folder) 
+    {
+        for (final File fileEntry : folder.listFiles()) 
+        {
+            System.out.println(fileEntry.getName());                    //nanti kirim ke file output
+        }
+    }
+    
+    //end of fungsi2
     public static void main(String[] args) {
         try {
             // TODO code application logic here
@@ -30,7 +57,10 @@ public class Server {
             Socket socket = servsock.accept();
             System.out.println("Server berjalan ...");
             InputStream is = socket.getInputStream();
-            OutputStream os = socket.getOutputStream();
+            OutputStream os = socket.getOutputStream();         //connected to client
+            //listen message
+            //kita kerja disini
+            //looping start
             
             byte[] buf = new byte[50];
             is.read(buf);
@@ -38,6 +68,10 @@ public class Server {
             os.write("selamat datang di serverku\r\n".getBytes());
             os.flush();
             
+            
+            
+            //end of looping
+            //kita kerja cuma sampai sini
             os.close();
             is.close();
             socket.close();

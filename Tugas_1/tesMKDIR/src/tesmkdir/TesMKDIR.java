@@ -34,7 +34,7 @@ public class TesMKDIR {
         }
     }
     public static void main(String[] args) {
-        lordMKDIR("/Users/dhanarp/random/lel");
+        lordMKDIR("/Users/dhanarp/random/lel2");
     }
     
 }

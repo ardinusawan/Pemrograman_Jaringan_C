@@ -30,6 +30,7 @@ public class Client {
             
             InputStream is = socket.getInputStream();
             OutputStream os = socket.getOutputStream();
+            //kita kerja dari sini
             
             os.write("Hello Server localhost\r\n\r\n".getBytes());
             os.flush();
@@ -45,7 +46,7 @@ public class Client {
                 }
                 System.out.print(new String(buf));
             }
-            
+            //kita kerja sampai sini
             os.close();
             is.close();
             
