@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class Server {
     //fungsi2
-    public void lordMKDIR(String input)
+    public static void lordMKDIR(String input)
     {
         File theDir = new File(input);
         if (!theDir.exists()) 
@@ -47,9 +47,16 @@ public class Server {
             System.out.println(fileEntry.getName());                    //nanti kirim ke file output
         }
     }
-    
+
     //end of fungsi2
     public static void main(String[] args) {
+
+        byte[] buf = new byte[1000];
+        String msg,msgCode;
+        int code;
+        File folder = new File("/Users/dhanarp/");
+
+
         try {
             // TODO code application logic here
             ServerSocket servsock = new ServerSocket(1234);
@@ -61,26 +68,60 @@ public class Server {
             //listen message
             //kita kerja disini
             //looping start
-            
-            byte[] buf = new byte[50];
-            is.read(buf);
-            System.out.println(new String (buf));
-            os.write("selamat datang di serverku\r\n".getBytes());
-            os.flush();
-            
-            
-            
+
+           //kirim pesan
+            int len;
+            while(true)
+            {
+                //recv from client
+                buf = new byte[1000];
+                len = is.read(buf);
+                if(len == -1)
+                {
+                    break;
+                }
+                msg =new String(buf);
+                //end of recv. parsing.
+                msgCode=msg.substring(0, 1);
+                code= Integer.parseInt(msgCode);
+                //masuk if
+                if(code==1) //LS
+                {
+                    msg=msg.substring(1);
+                    folder = new File(msg);
+                    lordLS(folder);
+                    //edit lordLS sehingga hasil di print di File
+                    //kirim File lewat Socket
+                }
+                else if(code==2) //mkdir
+                {
+                    msg=msg.substring(1);
+                    lordMKDIR(msg);
+                    //harusnyajalan
+
+                }
+                //output ke file
+                //kirim file
+                else if(code==0)        break;
+
+            }
+            //end of kirim pesan
+
+
+
+
+
             //end of looping
             //kita kerja cuma sampai sini
             os.close();
             is.close();
             socket.close();
             servsock.close();
-            
-            
+
+
         } catch (IOException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }
