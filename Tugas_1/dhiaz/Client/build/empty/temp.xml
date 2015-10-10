@@ -1,0 +1,27 @@
+/ is a directory.
+It is readable.
+It is writeable.
+Contents:
+ $Recycle.Bin
+ Boot
+ bootmgr
+ BOOTNXT
+ BOOTSECT.BAK
+ Config.Msi
+ dir
+ Documents and Settings
+ hiberfil.sys
+ Intel
+ MuseLog-downloaded.txt
+ MuseLog.txt
+ pagefile.sys
+ PerfLogs
+ Program Files
+ Program Files (x86)
+ ProgramData
+ Recovery
+ swapfile.sys
+ System Volume Information
+ temp.txt
+ Users
+ Windows
