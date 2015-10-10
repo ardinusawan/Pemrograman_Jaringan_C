@@ -11,7 +11,7 @@ import java.util.*;
  *
  * @author dhz
  */
-public class Client {
+public class Client { // TCP/IP
 
     /**
      * @param args the command line arguments
@@ -32,33 +32,36 @@ public class Client {
     }
     
     private static void accessServer() throws ClassNotFoundException {
-        Socket link = null; //Step 1.
+        Socket link = null;
         try {
-            link = new Socket(host,PORT);
-            Scanner input = new Scanner(link.getInputStream());
+            link = new Socket(host,PORT); // buat koneksi ke server
+            
+            // buat aliran data input output
+            //Scanner input = new Scanner(link.getInputStream()); // gk butuh karena udah pake transfer file
             PrintWriter output = new PrintWriter(link.getOutputStream(),true);
-            String message, response = "";
+            
+            String message;
             do { // tekan enter untuk keluar
                 System.out.print("Enter message: ");
                 Scanner userEntry = new Scanner(System.in);
                 message = userEntry.nextLine();
-                output.println(message); //Step 3.
+                output.println(message); // kirim input
                 userEntry.reset();
-                if(message.startsWith("ls")){ //ls
+                if(message.startsWith("ls")){ // ---ls---
                     if(!message.equals("ls") && !message.startsWith("ls "))
                         System.out.println("SERVER> "+message+": command not found");
                     else {
                         getFile(); //terima file hasil print ls
-                        //print file
+                        
+                        //print file ls
                         try (BufferedReader br = new BufferedReader(new FileReader(FILE_TO_RECEIVED))) {
-                            String line = null;
-                            while ((line = br.readLine()) != null) {
+                            String line;
+                            while ((line = br.readLine()) != null)
                                 System.out.println(line);
-                            }
                         }
                     }    
                 }
-                else if(message.startsWith("mkdir")) { //mkdir
+                else if(message.startsWith("mkdir")) { // ---mkdir---
                     if(message.length()==5)               // "mkdir" (input salah)
                         System.out.println("SERVER> mkdir: missing operrand");
                     else if(message.length()==6) { 
@@ -72,14 +75,14 @@ public class Client {
                     else                                  // "mkdir %%%%" (input benar)
                         System.out.println("SERVER> Created directory '"+message.substring(6)+"'");
                 }
-                else //selain ls & mkdir
+                else // selain ls & mkdir
                     System.out.println("SERVER> "+message+": command not found");
             } while (!message.equals("")); // tekan enter untuk keluar
         }
         catch(IOException ioEx) {
             ioEx.printStackTrace();
         }
-        finally {
+        finally { // tutup koneksi
             try {
                 System.out.println("\n* Closing connection... *");
                 link.close();
@@ -98,15 +101,15 @@ public class Client {
     
     public static void getFile() throws IOException {
         int bytesRead;
-        int current = 0;
+        int current;
         FileOutputStream fos = null;
         BufferedOutputStream bos = null;
         Socket sock = null;
         try {
-            sock = new Socket(SERVER, SOCKET_PORT);
+            sock = new Socket(SERVER, SOCKET_PORT); 
 
             // terima file
-            byte [] mybytearray  = new byte [FILE_SIZE];
+            byte[] mybytearray = new byte [FILE_SIZE];
             InputStream is = sock.getInputStream();
             fos = new FileOutputStream(FILE_TO_RECEIVED);
             bos = new BufferedOutputStream(fos);
@@ -125,9 +128,9 @@ public class Client {
             myFile.deleteOnExit();
         }
         finally {
-            if (fos != null) fos.close();
-            if (bos != null) bos.close();
-            if (sock != null) sock.close();
+            if(fos!=null) fos.close();
+            if(bos!=null) bos.close();
+            if(sock!=null) sock.close();
         }
     }
 }
