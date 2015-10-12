@@ -37,19 +37,24 @@ public class Client { // TCP/IP
             link = new Socket(host,PORT); // buat koneksi ke server
             
             // buat aliran data input output
-            //Scanner input = new Scanner(link.getInputStream()); // gk butuh karena udah pake transfer file
+            Scanner input = new Scanner(link.getInputStream()); // gk butuh, karena udah pake transfer file
             PrintWriter output = new PrintWriter(link.getOutputStream(),true);
             
-            String message;
+            String message, dir = "/", dir1 = "/";
+            int lnCount = 0;
+            //Boolean dirExists = false;
             do { // tekan enter untuk keluar
-                System.out.print("Enter message: ");
+                if(dir.equals("/"))
+                    System.out.print("SERVER:/$ ");
+                else
+                    System.out.print("SERVER:/"+dir.substring(1,dir.length()-1)+"$ ");
                 Scanner userEntry = new Scanner(System.in);
                 message = userEntry.nextLine();
                 output.println(message); // kirim input
                 userEntry.reset();
                 if(message.startsWith("ls")){ // ---ls---
                     if(!message.equals("ls") && !message.startsWith("ls "))
-                        System.out.println("SERVER> "+message+": command not found");
+                        System.out.println(message+": command not found");
                     else {
                         getFile(); //terima file hasil print ls
                         
@@ -63,20 +68,101 @@ public class Client { // TCP/IP
                 }
                 else if(message.startsWith("mkdir")) { // ---mkdir---
                     if(message.length()==5)               // "mkdir" (input salah)
-                        System.out.println("SERVER> mkdir: missing operrand");
+                        System.out.println("mkdir: missing operrand");
                     else if(message.length()==6) { 
                         if(!message.startsWith("mkdir ")) // "mkdir%" (input salah)
-                            System.out.println("SERVER> "+message+": command not found");
+                            System.out.println(message+": command not found");
                         else                              // "mkdir " (input salah)
-                            System.out.println("SERVER> mkdir: missing operrand");
+                            System.out.println("mkdir: missing operrand");
                     }
                     else if(!message.startsWith("mkdir "))// "mkdir%%%%" (input salah)
-                        System.out.println("SERVER> "+message+": command not found");
+                        System.out.println(message+": command not found");
                     else                                  // "mkdir %%%%" (input benar)
-                        System.out.println("SERVER> Created directory '"+message.substring(6)+"'");
+                        System.out.println("Created directory '"+message.substring(6)+"'");
                 }
-                else // selain ls & mkdir
-                    System.out.println("SERVER> "+message+": command not found");
+                else if(message.startsWith("cd")) { // ---cd---
+                    if(message.length()==2) {              // "cd" (input salah)
+                        System.out.println("cd: missing operrand");
+                    }
+                    else if(message.length()==3) { 
+                        if(!message.startsWith("cd ")) // "cd%" (input salah)
+                            System.out.println(message+": command not found");
+                        else                              // "cd " (input salah)
+                            System.out.println("cd: missing operrand");
+                    }
+                    else if(!message.startsWith("cd "))// "cd%%%%" (input salah)
+                        System.out.println(message+": command not found");
+                    
+                    else if(message.equals("cd /")) {
+                        dir = "/";
+                    }
+                    else if(message.startsWith("cd / ")) {
+                        dir = "/";
+                    }
+
+                    else if(message.equals("cd ..")) {
+                        if(!dir.equals("/"))
+                            dir = dir1;
+                    }
+                    else if(message.startsWith("cd .. ")) {
+                        if(!dir.equals("/"))
+                                dir = dir1;
+                    }
+                    
+                    else if(message.equals("cd .")) {
+                        System.out.println("cd: cannot access "+message.substring(3)+": No such file or directory");
+                    }
+                    
+                    else if(message.startsWith("cd /")) {
+                        getFile();
+                        try (BufferedReader br = new BufferedReader(new FileReader(FILE_TO_RECEIVED))) {
+                            String line;
+                            while ((line = br.readLine()) != null) {
+                                lnCount++;
+                            }
+                        }
+
+                        if(lnCount>1) {
+                            dir1 = dir;
+                            if(message.endsWith("/")) {
+                                dir = "";
+                                dir = dir + message.substring(3);
+                            }
+                            else {
+                                dir = "";
+                                dir = dir + message.substring(3) + "/";
+                            }
+                        } else {
+                            System.out.println("cd: cannot access "+message.substring(3)+": No such file or directory");
+                        }
+                        lnCount = 0;
+                    }
+                    
+                    else {
+                        getFile();
+                        try (BufferedReader br = new BufferedReader(new FileReader(FILE_TO_RECEIVED))) {
+                            String line;
+                            while ((line = br.readLine()) != null) {
+                                lnCount++;
+                            }
+                        }
+
+                        if(lnCount>1) {
+                            dir1 = dir;
+                            if(message.endsWith("/")) {
+                                dir = dir + message.substring(3);
+                            }
+                            else {
+                                dir = dir + message.substring(3) + "/";
+                            }
+                        } else {
+                            System.out.println("cd: cannot access "+message.substring(3)+": No such file or directory");
+                        }
+                        lnCount = 0;
+                    }
+                }
+                else // selain cd, ls, mkdir
+                    System.out.println(message+": command not found");
             } while (!message.equals("")); // tekan enter untuk keluar
         }
         catch(IOException ioEx) {
