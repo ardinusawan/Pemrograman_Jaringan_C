@@ -17,7 +17,7 @@ public class Server { // TCP/IP
      * @param args the command line arguments
      */
     private static ServerSocket servSock;
-    private static final int PORT = 1234;
+    private static final int PORT = 5000;
         
     public static void main(String[] args) {
         // TODO code application logic here
@@ -48,7 +48,7 @@ public class Server { // TCP/IP
                 if(message.startsWith("ls")) { // ---ls---
                     
                     if(message.equals("ls"))
-                        if(dir=="")
+                        if(dir=="/")
                             FileList(message); // kirim hasil ls ke klien
                         else
                             FileList(message+" "+dir); // kirim hasil ls ke klien

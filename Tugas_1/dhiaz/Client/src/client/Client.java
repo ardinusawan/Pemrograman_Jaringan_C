@@ -17,7 +17,7 @@ public class Client { // TCP/IP
      * @param args the command line arguments
      */
     private static InetAddress host;
-    private static final int PORT = 1234;
+    private static final int PORT = 5000;
     
     public static void main(String[] args) throws ClassNotFoundException {
         // TODO code application logic here
