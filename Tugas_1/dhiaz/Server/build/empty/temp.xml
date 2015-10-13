@@ -1,0 +1,29 @@
+/ is a directory.
+It is readable.
+It is not writeable.
+Contents:
+ sys
+ tmp
+ boot
+ lib
+ root
+ srv
+ usr
+ initrd.img.old
+ lib64
+ run
+ etc
+ bin
+ initrd.img
+ cdrom
+ vmlinuz.old
+ sbin
+ proc
+ opt
+ var
+ media
+ mnt
+ home
+ lost+found
+ dev
+ vmlinuz
