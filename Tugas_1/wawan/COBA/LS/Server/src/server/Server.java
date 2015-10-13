@@ -27,6 +27,7 @@ public class Server {
     /**
      * @param args the command line arguments
      */
+    
      public static boolean setCurrentDirectory(String directory_name)
     {
         boolean result = false;  // Boolean indicating whether directory was set
@@ -65,6 +66,7 @@ public class Server {
             InputStream is = socket.getInputStream();
             OutputStream os = socket.getOutputStream();
             //Process proc = Runtime.getRuntime().exec(command);
+           
             byte[] buf = new byte[50];
             is.read(buf);
             System.out.println(new String (buf));
@@ -158,10 +160,39 @@ public class Server {
                      //System.out.println(f.getPath());
                     //System.getProperties("user.dir");
                             //System.setProperties(part2.);
-                    //String dir = new String("user.dir")
-                    String dir = System.getProperty("user.home");
+                    String dir = new String("user.dir");
+                    String go_to = new String(part2);
+                    //dir = part2;
                     
-                    System.out.println(dir);
+                    String command = ls + " " + part2;
+                     //String command = "ls /home/ardi/Downloads";
+
+                    Process proc3;
+                    try {
+                        proc3 = Runtime.getRuntime().exec(command);
+                                    // Read the output
+
+                    BufferedReader reader =  
+                    new BufferedReader(new InputStreamReader(proc3.getInputStream()));
+
+                    String line = "";
+                    while((line = reader.readLine()) != null) {
+                    System.out.print(line + "\n");
+                    os.write(line.getBytes());
+
+                    }
+                    }
+                    catch (IOException ex) {
+                        Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    
+                    
+                    
+                    
+                    //String dir = System.getProperty("user.home");
+                    
+                    //System.out.println(dir);
                     
                     
                     
