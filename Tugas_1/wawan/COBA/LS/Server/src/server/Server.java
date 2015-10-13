@@ -7,6 +7,7 @@ package server;
 
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -120,8 +121,16 @@ public class Server {
                 }
                 else if(part1.equals(cd))
                 {                    
+            
                     //System.out.println("cd " + part2);
                     //Runtime.getRuntime().exec("sh -c 'cd /home/ardi/wawan2 && mkdir ww");
+                    //File f = new File ( System.getProperty("/home/ardi/wawan2"),part1);
+                     //System.out.println(f.getPath());
+                    //System.getProperties("user.dir");
+                            //System.setProperties(part2.);
+
+                    //System.out.println("user.dir: " + System.getProperty("user.dir"));
+
                     
                     
 
