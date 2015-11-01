@@ -1,4 +1,4 @@
-/ is a directory.
+﻿/ is a directory.
 It is readable.
 It is writeable.
 Contents:
@@ -28,7 +28,6 @@ Contents:
  System Volume Information
  t
  temp.txt
- temp.xml
  Users
  Windows
  [Smad-Cage]

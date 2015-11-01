@@ -56,9 +56,10 @@ public class Client { // TCP/IP
                     if(!message.equals("ls") && !message.startsWith("ls "))
                         System.out.println(message+": command not found");
                     else {
-                        getFile(); //terima file hasil print ls
+                        getFile(FILE_TO_RECEIVED); //terima file hasil print ls
                         
                         //print file ls
+                        System.out.println("mulai baca");
                         try (BufferedReader br = new BufferedReader(new FileReader(FILE_TO_RECEIVED))) {
                             String line;
                             while ((line = br.readLine()) != null)
@@ -114,7 +115,7 @@ public class Client { // TCP/IP
                     }
                     
                     else if(message.startsWith("cd /")) {
-                        getFile();
+                        getFile(FILE_TO_RECEIVED);
                         try (BufferedReader br = new BufferedReader(new FileReader(FILE_TO_RECEIVED))) {
                             String line;
                             while ((line = br.readLine()) != null) {
@@ -139,7 +140,7 @@ public class Client { // TCP/IP
                     }
                     
                     else {
-                        getFile();
+                        getFile(FILE_TO_RECEIVED);
                         try (BufferedReader br = new BufferedReader(new FileReader(FILE_TO_RECEIVED))) {
                             String line;
                             while ((line = br.readLine()) != null) {
@@ -161,7 +162,37 @@ public class Client { // TCP/IP
                         lnCount = 0;
                     }
                 }
-                else // selain cd, ls, mkdir
+                else if(message.startsWith("wget")) { // ---wget---
+                    System.out.println("1");
+                    if(message.length()==4)               // "wget" (input salah)
+                        System.out.println("wget: missing operrand");
+                    else if(message.length()==5) { 
+                        if(!message.startsWith("wget ")) // "wget%" (input salah)
+                            System.out.println(message+": command not found");
+                        else                              // "wget " (input salah)
+                            System.out.println("wget: missing operrand");
+                    }
+                    else if(!message.startsWith("wget "))// "wget%%%%" (input salah)
+                        System.out.println(message+": command not found");
+                    else {                                // "wget %%%%" (input benar)
+                        System.out.println("2");
+                        System.out.println(message.substring(5));
+                        getFile(message.substring(5));
+//                        getFile(FILE_TO_RECEIVED);
+                        
+                        System.out.println("mulai baca");
+                        try (BufferedReader br = new BufferedReader(new FileReader(message.substring(5)))) {
+//                        try (BufferedReader br = new BufferedReader(new FileReader(FILE_TO_RECEIVED))) {
+                            String line;
+                            while ((line = br.readLine()) != null);
+                                System.out.println(line);
+                        }
+                        
+                        System.out.println("File transfered '"+message.substring(5)+"'");
+                    }
+                    System.out.println("3");
+                }
+                else // selain cd, ls, mkdir, wget
                     System.out.println(message+": command not found");
             } while (!message.equals("")); // tekan enter untuk keluar
         }
@@ -181,42 +212,54 @@ public class Client { // TCP/IP
     }
     
     public final static String FILE_TO_RECEIVED = "build/classes/temp.xml";
-    public final static int FILE_SIZE = 1234;//6022386; // file size temporary hard coded // ukuran file yang dikirim harus kurang dari ini
+    public final static int FILE_SIZE = 6022386;//1234;//6022386; // file size temporary hard coded // ukuran file yang dikirim harus kurang dari ini
     public final static int SOCKET_PORT = 13267;       // port socket buat transfer file
     public final static String SERVER = "127.0.0.1";  // localhost
     
-    public static void getFile() throws IOException {
+    public static void getFile(String file) throws IOException {
+        System.out.println(file);
         int bytesRead;
         int current;
         FileOutputStream fos = null;
         BufferedOutputStream bos = null;
         Socket sock = null;
+        
+        System.out.println(1.1);
         try {
             sock = new Socket(SERVER, SOCKET_PORT); 
-
+            
+            System.out.println(1.2);
             // terima file
             byte[] mybytearray = new byte [FILE_SIZE];
             InputStream is = sock.getInputStream();
-            fos = new FileOutputStream(FILE_TO_RECEIVED);
+            fos = new FileOutputStream(file);
             bos = new BufferedOutputStream(fos);
             bytesRead = is.read(mybytearray,0,mybytearray.length);
             current = bytesRead;
-
+            
+            System.out.println(1.3);
             do {
                 bytesRead = is.read(mybytearray, current, (mybytearray.length-current));
                 if(bytesRead >= 0) current += bytesRead;
             } while(bytesRead > -1);
-
-            bos.write(mybytearray, 0 , current);
+            
+            System.out.println(1.4);
+            bos.write(mybytearray, 0, current);
+            //bos.write(mybytearray, 0, FILE_SIZE);
             bos.flush();
-
-            File myFile = new File (FILE_TO_RECEIVED);
-            myFile.deleteOnExit();
+            fos.flush();
+//            File myFile = new File (file);
+//            myFile.deleteOnExit();
+            System.out.println("1.success");
         }
+//        catch(IOException ioEx) {
+//                System.out.println("...");
+//            }
         finally {
             if(fos!=null) fos.close();
             if(bos!=null) bos.close();
             if(sock!=null) sock.close();
+            System.out.println("1.finally");
         }
     }
 }

@@ -71,7 +71,8 @@ class ClientHandler extends Thread {
 //            //the socket's output stream...
 //            output.println("ECHO: " + received);
 //            //Repeat above until 'QUIT' sent by client...
-            
+                System.out.println("Loop baru");
+                System.out.println(dir);
                 if(message.startsWith("ls")) { // ---ls---
                     
                     if(message.equals("ls"))
@@ -135,6 +136,42 @@ class ClientHandler extends Thread {
                                 dir = dir + message.substring(3) + "/";
                     }
                 }
+                
+//                if(message.startsWith("wget")) { // ---ls---
+//                    
+//                    if(message.equals("wget"));
+////                        if(dir=="")
+////                            FileList(message); // kirim hasil ls ke klien
+////                        else
+////                            FileList(message+" "+dir); // kirim hasil ls ke klien
+//                    else if(message.startsWith("wget /"))
+////                        FileList(message); // kirim hasil ls ke klien
+//                        sendFile(FILE_TO_SEND);
+//                    else if(message.startsWith("wget "))
+//                        sendFile(FILE_TO_SEND);
+////                        FileList(message.substring(0,3)+dir+
+////                            message.substring(3,message.length())); // kirim hasil ls ke klien
+//                }
+                
+                else if(message.startsWith("wget ")) {// ---wget---
+                    System.out.println(1);
+                    if(message.startsWith("wget /")) {
+                        System.out.println("if1");
+                        sendFile(message.substring(5,message.length()));
+                        //FileList(message.substring(5)); // kirim hasil ls ke klien
+                    }
+                    else if(message.startsWith("wget ")) {
+                        System.out.println("if2");
+                        sendFile(dir+message.substring(5,message.length())); // kirim hasil ls ke klien
+                    }
+                    System.out.println(2);
+//                    if(message.startsWith("ls /"))
+//                        FileList(message); // kirim hasil ls ke klien
+//                    else if(message.startsWith("ls "))
+//                        FileList(message.substring(0,3)+dir+
+//                            message.substring(3,message.length())); // kirim hasil ls ke klien
+                }
+                
                 message = input.nextLine(); // nerima input selanjutnya
             
             } while (!message.equals("QUIT"));
@@ -192,7 +229,7 @@ class ClientHandler extends Thread {
             writer.print(report);
             writer.close();
             
-            sendFile(); // kirim file hasil print ls ke client
+            sendFile(FILE_TO_SEND); // kirim file hasil print ls ke client
             
             return report;
         }
@@ -207,7 +244,7 @@ class ClientHandler extends Thread {
                 writer.print(report);
                 writer.close();
 
-                sendFile(); // kirim file hasil print ls ke client
+                sendFile(FILE_TO_SEND); // kirim file hasil print ls ke client
 
                 return false;
             }
@@ -217,63 +254,51 @@ class ClientHandler extends Thread {
                 writer.print(report);
                 writer.close();
 
-                sendFile(); // kirim file hasil print ls ke client
+                sendFile(FILE_TO_SEND); // kirim file hasil print ls ke client
 
                 return true;
-//                report = report.concat(filename + " is a ");
-//                if (fileDir.isFile())
-//                    report = report.concat("file.\n");
-//                else
-//                    report = report.concat("directory.\n"); 
-//                report = report.concat("It is ");
-//                if (!fileDir.canRead())
-//                    report = report.concat("not ");
-//                report = report.concat("readable.\n");
-//                report = report.concat("It is ");
-//                if (!fileDir.canWrite())
-//                    report = report.concat("not ");
-//                report = report.concat("writeable.\n");
-//                if (fileDir.isFile())
-//                    report = report.concat("Size of file: "+fileDir.length()+ " bytes.\n");
-//                else { //Nampilin semua file & folder
-//                    report = report.concat("Contents:\n");
-//                    String[] fileList = fileDir.list();
-//                    for (int i=0; i<fileList.length; i++)
-//                        report = report.concat(" "+fileList[i]+"\n");
-//                }
             }
         }
     
     public final static int SOCKET_PORT = 13267;  // port socket buat transfer file
     public final static String FILE_TO_SEND = "build/classes/temp.xml";
 
-    public static void sendFile() throws IOException {
+    public static void sendFile(String file) throws IOException {
+        System.out.println(1.2);
         FileInputStream fis = null;
         BufferedInputStream bis = null;
         OutputStream os = null;
         ServerSocket servsock = null;
         Socket sock = null;
         try {
+            System.out.println(1.3);
             servsock = new ServerSocket(SOCKET_PORT); // buat socket server untuk kirim file
             try {
+                System.out.println(file);
+                System.out.println(1.4);
                 sock = servsock.accept();
                 
-                File myFile = new File (FILE_TO_SEND);
-                myFile.deleteOnExit();
+                System.out.println(1.5);
+                File myFile = new File (file);
+                //myFile.deleteOnExit();
                 
                 // kirim file
+                System.out.println(1.6);
                 byte[] mybytearray = new byte [(int)myFile.length()];
                 fis = new FileInputStream(myFile);
                 bis = new BufferedInputStream(fis);
+                System.out.println(1.7);
                 bis.read(mybytearray,0,mybytearray.length);
                 os = sock.getOutputStream();
                 os.write(mybytearray,0,mybytearray.length);
                 os.flush();
+                System.out.println("1.success");
             }
             finally {
                 if(bis!=null) bis.close();
                 if(os!=null) os.close();
                 if(sock!=null) sock.close();
+                System.out.println("1.finally");
             }
         }
         finally {
