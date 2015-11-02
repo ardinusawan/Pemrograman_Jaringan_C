@@ -174,21 +174,47 @@ public class Client { // TCP/IP
                     }
                     else if(!message.startsWith("wget "))// "wget%%%%" (input salah)
                         System.out.println(message+": command not found");
+                    else if(message.startsWith("wget /")) {                                // "wget %%%%" (input benar)
+                        System.out.println("2");
+                        System.out.println(message.substring(5));
+                        try {   
+                            getFile(message.substring(message.lastIndexOf("/")+1));
+    //                        getFile(FILE_TO_RECEIVED);
+
+                            System.out.println("mulai baca");
+                            try (BufferedReader br = new BufferedReader(new FileReader(message.substring(5)))) {
+    //                        try (BufferedReader br = new BufferedReader(new FileReader(FILE_TO_RECEIVED))) {
+                                String line;
+                                while ((line = br.readLine()) != null);
+                                    System.out.println(line);
+                            }
+
+                            System.out.println("File transfered '"+message.substring(5)+"'");
+                        }
+                        catch(IOException ioEx) {
+                            System.out.println("Error 404: File not found");
+                        }
+                    }
                     else {                                // "wget %%%%" (input benar)
                         System.out.println("2");
                         System.out.println(message.substring(5));
-                        getFile(message.substring(5));
-//                        getFile(FILE_TO_RECEIVED);
-                        
-                        System.out.println("mulai baca");
-                        try (BufferedReader br = new BufferedReader(new FileReader(message.substring(5)))) {
-//                        try (BufferedReader br = new BufferedReader(new FileReader(FILE_TO_RECEIVED))) {
-                            String line;
-                            while ((line = br.readLine()) != null);
-                                System.out.println(line);
+                        try {   
+                            getFile(message.substring(5));
+    //                        getFile(FILE_TO_RECEIVED);
+
+                            System.out.println("mulai baca");
+                            try (BufferedReader br = new BufferedReader(new FileReader(message.substring(5)))) {
+    //                        try (BufferedReader br = new BufferedReader(new FileReader(FILE_TO_RECEIVED))) {
+                                String line;
+                                while ((line = br.readLine()) != null);
+                                    System.out.println(line);
+                            }
+
+                            System.out.println("File transfered '"+message.substring(5)+"'");
                         }
-                        
-                        System.out.println("File transfered '"+message.substring(5)+"'");
+                        catch(IOException ioEx) {
+                            System.out.println("Error 404: File not found");
+                        }
                     }
                     System.out.println("3");
                 }

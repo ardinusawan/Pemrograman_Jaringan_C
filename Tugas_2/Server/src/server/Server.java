@@ -137,39 +137,19 @@ class ClientHandler extends Thread {
                     }
                 }
                 
-//                if(message.startsWith("wget")) { // ---ls---
-//                    
-//                    if(message.equals("wget"));
-////                        if(dir=="")
-////                            FileList(message); // kirim hasil ls ke klien
-////                        else
-////                            FileList(message+" "+dir); // kirim hasil ls ke klien
-//                    else if(message.startsWith("wget /"))
-////                        FileList(message); // kirim hasil ls ke klien
-//                        sendFile(FILE_TO_SEND);
-//                    else if(message.startsWith("wget "))
-//                        sendFile(FILE_TO_SEND);
-////                        FileList(message.substring(0,3)+dir+
-////                            message.substring(3,message.length())); // kirim hasil ls ke klien
-//                }
-                
                 else if(message.startsWith("wget ")) {// ---wget---
                     System.out.println(1);
                     if(message.startsWith("wget /")) {
                         System.out.println("if1");
+                        System.out.println("sendFile("+message.substring(5,message.length())+")");
                         sendFile(message.substring(5,message.length()));
-                        //FileList(message.substring(5)); // kirim hasil ls ke klien
                     }
                     else if(message.startsWith("wget ")) {
                         System.out.println("if2");
+                        System.out.println("sendFile("+dir+message.substring(5,message.length())+")");
                         sendFile(dir+message.substring(5,message.length())); // kirim hasil ls ke klien
                     }
                     System.out.println(2);
-//                    if(message.startsWith("ls /"))
-//                        FileList(message); // kirim hasil ls ke klien
-//                    else if(message.startsWith("ls "))
-//                        FileList(message.substring(0,3)+dir+
-//                            message.substring(3,message.length())); // kirim hasil ls ke klien
                 }
                 
                 message = input.nextLine(); // nerima input selanjutnya

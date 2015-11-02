@@ -17,7 +17,7 @@ public class Server { // TCP/IP
      * @param args the command line arguments
      */
     private static ServerSocket servSock;
-    private static final int PORT = 5000;
+    private static final int PORT = 1234;
         
     public static void main(String[] args) {
         // TODO code application logic here
@@ -38,7 +38,6 @@ public class Server { // TCP/IP
         Socket link = null;
         try {
             link = servSock.accept(); // terima koneksi
-            
             // buat aliran data input output
             Scanner input = new Scanner(link.getInputStream());
             PrintWriter output = new PrintWriter(link.getOutputStream(),true);
@@ -48,7 +47,7 @@ public class Server { // TCP/IP
                 if(message.startsWith("ls")) { // ---ls---
                     
                     if(message.equals("ls"))
-                        if(dir=="/")
+                        if(dir=="")
                             FileList(message); // kirim hasil ls ke klien
                         else
                             FileList(message+" "+dir); // kirim hasil ls ke klien
@@ -161,7 +160,7 @@ public class Server { // TCP/IP
                 }
             }
             // tulis hasil ls ke file
-            PrintWriter writer = new PrintWriter("build/empty/temp.xml", "UTF-8");
+            PrintWriter writer = new PrintWriter("build/classes/temp.xml", "UTF-8");
             writer.print(report);
             writer.close();
             
@@ -176,7 +175,7 @@ public class Server { // TCP/IP
             File fileDir = new File(filename);
             if (!fileDir.exists()) {
                 //report = report.concat("cd: cannot access "+filename+": No such file or directory\n");
-                PrintWriter writer = new PrintWriter("build/empty/temp.xml", "UTF-8");
+                PrintWriter writer = new PrintWriter("build/classes/temp.xml", "UTF-8");
                 writer.print(report);
                 writer.close();
 
@@ -186,7 +185,7 @@ public class Server { // TCP/IP
             }
             else {
                 report = "1\n2";
-                PrintWriter writer = new PrintWriter("build/empty/temp.xml", "UTF-8");
+                PrintWriter writer = new PrintWriter("build/classes/temp.xml", "UTF-8");
                 writer.print(report);
                 writer.close();
 
@@ -218,7 +217,7 @@ public class Server { // TCP/IP
         }
     
     public final static int SOCKET_PORT = 13267;  // port socket buat transfer file
-    public final static String FILE_TO_SEND = "build/empty/temp.xml";
+    public final static String FILE_TO_SEND = "build/classes/temp.xml";
 
     public static void sendFile() throws IOException {
         FileInputStream fis = null;

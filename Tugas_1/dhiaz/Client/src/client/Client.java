@@ -17,7 +17,7 @@ public class Client { // TCP/IP
      * @param args the command line arguments
      */
     private static InetAddress host;
-    private static final int PORT = 5000;
+    private static final int PORT = 1234;
     
     public static void main(String[] args) throws ClassNotFoundException {
         // TODO code application logic here
@@ -180,7 +180,7 @@ public class Client { // TCP/IP
         }
     }
     
-    public final static String FILE_TO_RECEIVED = "build/empty/temp.xml";
+    public final static String FILE_TO_RECEIVED = "build/classes/temp.xml";
     public final static int FILE_SIZE = 1234;//6022386; // file size temporary hard coded // ukuran file yang dikirim harus kurang dari ini
     public final static int SOCKET_PORT = 13267;       // port socket buat transfer file
     public final static String SERVER = "127.0.0.1";  // localhost
