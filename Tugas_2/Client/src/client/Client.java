@@ -226,6 +226,65 @@ public class Client { // TCP/IP
                         }
                     }
                 }
+                
+                
+                else if(message.startsWith("upload")) { // ---upload---
+                    System.out.println("1");
+                    if(message.length()==6)               // "upload" (input salah)
+                        System.out.println("upload: missing operrand");
+                    else if(message.length()==7) { 
+                        if(!message.startsWith("upload ")) // "upload%" (input salah)
+                            System.out.println(message+": command not found");
+                        else                              // "upload " (input salah)
+                            System.out.println("upload: missing operrand");
+                    }
+                    else if(!message.startsWith("upload "))// "upload%%%%" (input salah)
+                        System.out.println(message+": command not found");
+                    else if(message.startsWith("upload /")) {                                // "upload %%%%" (input benar)
+                        System.out.println("4");
+                        System.out.println(message.substring(7));
+                        try {   
+                            sendFile(message.substring(message.lastIndexOf("/")+1));
+    //                        getFile(FILE_TO_RECEIVED);
+
+//                            System.out.println("mulai baca");
+//                            try (BufferedReader br = new BufferedReader(new FileReader(message.substring(5)))) {
+//    //                        try (BufferedReader br = new BufferedReader(new FileReader(FILE_TO_RECEIVED))) {
+//                                String line;
+//                                while ((line = br.readLine()) != null);
+//                                    System.out.println(line);
+//                            }
+
+                            System.out.println("File transfered '"+message.substring(5)+"'");
+                        }
+                        catch(IOException ioEx) {
+                            System.out.println("Error 404: File not found");
+                        }
+                    }
+                    else {                                // "upload %%%%" (input benar)
+                        System.out.println("2");
+                        System.out.println(message.substring(7));
+                        try {   
+                            sendFile(message.substring(7));
+    //                        getFile(FILE_TO_RECEIVED);
+
+//                            System.out.println("mulai baca");
+//                            try (BufferedReader br = new BufferedReader(new FileReader(message.substring(5)))) {
+//    //                        try (BufferedReader br = new BufferedReader(new FileReader(FILE_TO_RECEIVED))) {
+//                                String line;
+//                                while ((line = br.readLine()) != null);
+//                                    System.out.println(line);
+//                            }
+
+                            System.out.println("File transfered '"+message.substring(7)+"'");
+                        }
+                        catch(IOException ioEx) {
+                            System.out.println("Error 404: File not found");
+                        }
+                    }
+                    System.out.println("3");
+                }
+                
                 else // selain cd, ls, mkdir, wget
                     System.out.println(message+": command not found");
             } while (!message.equals("")); // tekan enter untuk keluar
@@ -248,10 +307,54 @@ public class Client { // TCP/IP
         System.out.println("selesai");
     }
     
+    public final static String FILE_TO_SEND = "build/classes/temp.xml";
     public final static String FILE_TO_RECEIVED = "build/classes/temp.xml";
     public final static int FILE_SIZE = 6022386;//1234;//6022386; // file size temporary hard coded // ukuran file yang dikirim harus kurang dari ini
     public final static int SOCKET_PORT = 13267;       // port socket buat transfer file
     public final static String SERVER = "127.0.0.1";  // localhost
+    
+    public static void sendFile(String file) throws IOException {
+        System.out.println(1.2);
+        FileInputStream fis = null;
+        BufferedInputStream bis = null;
+        OutputStream os = null;
+        ServerSocket servsock = null;
+        Socket sock = null;
+        try {
+            System.out.println(1.3);
+            servsock = new ServerSocket(SOCKET_PORT); // buat socket server untuk kirim file
+            try {
+                System.out.println(file);
+                System.out.println(1.4);
+                sock = servsock.accept();
+                
+                System.out.println(1.5);
+                File myFile = new File (file);
+                //myFile.deleteOnExit();
+                
+                // kirim file
+                System.out.println(1.6);
+                byte[] mybytearray = new byte [(int)myFile.length()];
+                fis = new FileInputStream(myFile);
+                bis = new BufferedInputStream(fis);
+                System.out.println(1.7);
+                bis.read(mybytearray,0,mybytearray.length);
+                os = sock.getOutputStream();
+                os.write(mybytearray,0,mybytearray.length);
+                os.flush();
+                System.out.println("1.success");
+            }
+            finally {
+                if(bis!=null) bis.close();
+                if(os!=null) os.close();
+                if(sock!=null) sock.close();
+                System.out.println("1.finally");
+            }
+        }
+        finally {
+            if(servsock!=null) servsock.close();
+        }
+    }
     
     public static int getFile(String file) throws IOException {
         System.out.println(file);

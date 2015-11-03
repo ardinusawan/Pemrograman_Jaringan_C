@@ -152,6 +152,22 @@ class ClientHandler extends Thread {
                     System.out.println(2);
                 }
                 
+                else if(message.startsWith("upload ")) {// ---curl---
+                    System.out.println(1);
+                    System.out.println("getFile("+dir+message.substring(7,message.length())+")");
+                    //getFile("uploaded/"+message.substring(7)); // kirim hasil ls ke klien
+                    getFile(message.substring(7)); // kirim hasil ls ke klien
+                    System.out.println("mulai baca");
+                    //try (BufferedReader br = new BufferedReader(new FileReader("uploaded/"+message.substring(7)))) {
+                    try (BufferedReader br = new BufferedReader(new FileReader(message.substring(7)))) {
+//                        try (BufferedReader br = new BufferedReader(new FileReader(FILE_TO_RECEIVED))) {
+                        String line;
+                        while ((line = br.readLine()) != null);
+                            System.out.println(line);
+                    }
+                    System.out.println(2);
+                }
+                
                 message = input.nextLine(); // nerima input selanjutnya
             
             } while (!message.equals("QUIT"));
@@ -240,9 +256,12 @@ class ClientHandler extends Thread {
             }
         }
     
-    public final static int SOCKET_PORT = 13267;  // port socket buat transfer file
     public final static String FILE_TO_SEND = "build/classes/temp.xml";
-
+    public final static String FILE_TO_RECEIVED = "build/classes/temp.xml";
+    public final static int FILE_SIZE = 6022386;//1234;//6022386; // file size temporary hard coded // ukuran file yang dikirim harus kurang dari ini
+    public final static int SOCKET_PORT = 13267;       // port socket buat transfer file
+    public final static String SERVER = "127.0.0.1";  // localhost
+    
     public static void sendFile(String file) throws IOException {
         System.out.println(1.2);
         FileInputStream fis = null;
@@ -295,6 +314,53 @@ class ClientHandler extends Thread {
         finally {
             if(servsock!=null) servsock.close();
             //System.out.println("error");
+        }
+    }
+    
+    public static void getFile(String file) throws IOException {
+        System.out.println(file);
+        int bytesRead;
+        int current;
+        FileOutputStream fos = null;
+        BufferedOutputStream bos = null;
+        Socket sock = null;
+        
+        System.out.println(1.1);
+        try {
+            sock = new Socket(SERVER, SOCKET_PORT); 
+            
+            System.out.println(1.2);
+            // terima file
+            byte[] mybytearray = new byte [FILE_SIZE];
+            InputStream is = sock.getInputStream();
+            fos = new FileOutputStream(file);
+            bos = new BufferedOutputStream(fos);
+            bytesRead = is.read(mybytearray,0,mybytearray.length);
+            current = bytesRead;
+            
+            System.out.println(1.3);
+            do {
+                bytesRead = is.read(mybytearray, current, (mybytearray.length-current));
+                if(bytesRead >= 0) current += bytesRead;
+            } while(bytesRead > -1);
+            
+            System.out.println(1.4);
+            bos.write(mybytearray, 0, current);
+            //bos.write(mybytearray, 0, FILE_SIZE);
+            bos.flush();
+            fos.flush();
+//            File myFile = new File (file);
+//            myFile.deleteOnExit();
+            System.out.println("1.success");
+        }
+//        catch(IOException ioEx) {
+//                System.out.println("...");
+//            }
+        finally {
+            if(fos!=null) fos.close();
+            if(bos!=null) bos.close();
+            if(sock!=null) sock.close();
+            System.out.println("1.finally");
         }
     }
 }
