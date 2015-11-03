@@ -71,8 +71,8 @@ class ClientHandler extends Thread {
 //            //the socket's output stream...
 //            output.println("ECHO: " + received);
 //            //Repeat above until 'QUIT' sent by client...
-                System.out.println("Loop baru");
-                System.out.println(dir);
+//                System.out.println("Loop baru");
+//                System.out.println(dir);
                 if(message.startsWith("ls")) { // ---ls---
                     
                     if(message.equals("ls"))
@@ -138,34 +138,35 @@ class ClientHandler extends Thread {
                 }
                 
                 else if(message.startsWith("wget ")) {// ---wget---
-                    System.out.println(1);
+                    //System.out.println(1);
                     if(message.startsWith("wget /")) {
-                        System.out.println("if1");
-                        System.out.println("sendFile("+message.substring(5,message.length())+")");
+                        //System.out.println("if1");
+//                        System.out.println("sendFile("+message.substring(5,message.length())+")");
                         sendFile(message.substring(5,message.length()));
                     }
                     else if(message.startsWith("wget ")) {
-                        System.out.println("if2");
-                        System.out.println("sendFile("+dir+message.substring(5,message.length())+")");
+                        //System.out.println("if2");
+//                        System.out.println("sendFile("+dir+message.substring(5,message.length())+")");
                         sendFile(dir+message.substring(5,message.length())); // kirim hasil ls ke klien
                     }
-                    System.out.println(2);
+                    //System.out.println(2);
                 }
                 
-                else if(message.startsWith("upload ")) {// ---curl---
-                    System.out.println(1);
+ 
+               else if(message.startsWith("upload ")) {// ---curl---
+                    //System.out.println(1);
                     System.out.println("getFile("+dir+message.substring(7,message.length())+")");
                     //getFile("uploaded/"+message.substring(7)); // kirim hasil ls ke klien
                     getFile(message.substring(7)); // kirim hasil ls ke klien
-                    System.out.println("mulai baca");
+//                    System.out.println("mulai baca");
                     //try (BufferedReader br = new BufferedReader(new FileReader("uploaded/"+message.substring(7)))) {
                     try (BufferedReader br = new BufferedReader(new FileReader(message.substring(7)))) {
 //                        try (BufferedReader br = new BufferedReader(new FileReader(FILE_TO_RECEIVED))) {
                         String line;
                         while ((line = br.readLine()) != null);
-                            System.out.println(line);
+//                            System.out.println(line);
                     }
-                    System.out.println(2);
+                    //System.out.println(2);
                 }
                 
                 message = input.nextLine(); // nerima input selanjutnya
@@ -263,52 +264,52 @@ class ClientHandler extends Thread {
     public final static String SERVER = "127.0.0.1";  // localhost
     
     public static void sendFile(String file) throws IOException {
-        System.out.println(1.2);
+        //System.out.println(1.2);
         FileInputStream fis = null;
         BufferedInputStream bis = null;
         OutputStream os = null;
         ServerSocket servsock = null;
         Socket sock = null;
         try {
-            System.out.println(1.3);
+            //System.out.println(1.3);
             servsock = new ServerSocket(SOCKET_PORT); // buat socket server untuk kirim file
             try {
-                System.out.println(file);
-                System.out.println(1.4);
+//                System.out.println(file);
+                //System.out.println(1.4);
                 output.println("no more race condition fam");
                 sock = servsock.accept();
                 
-                System.out.println(1.5);
+                //System.out.println(1.5);
                 File myFile = new File (file);
                 //myFile.deleteOnExit();
                 
                 // kirim file
-                System.out.println(1.6);
+                //System.out.println(1.6);
                 byte[] mybytearray = new byte [(int)myFile.length()];
                 if(myFile.length()!=0)
                 {
                     fis = new FileInputStream(myFile);
                     bis = new BufferedInputStream(fis);
-                    System.out.println(1.7);
+                    //System.out.println(1.7);
                     bis.read(mybytearray,0,mybytearray.length);
                     os = sock.getOutputStream();
                     os.write(mybytearray,0,mybytearray.length);
                     //System.out.write(mybytearray,0,mybytearray.length);
                     os.flush();
-                    System.out.println("1.success");
+                    //System.out.println("1.success");
                 }
                 else
                 {
                     os = sock.getOutputStream();
                     os.write(mybytearray,0,mybytearray.length);
-                    System.out.println("1.no file");
+                    //System.out.println("1.no file");
                 }
             }
             finally {
                 if(bis!=null) bis.close();
                 if(os!=null) os.close();
                 if(sock!=null) sock.close();
-                System.out.println("1.finally");
+                //System.out.println("1.finally");
             }
         }
         finally {
@@ -318,18 +319,18 @@ class ClientHandler extends Thread {
     }
     
     public static void getFile(String file) throws IOException {
-        System.out.println(file);
+//        System.out.println(file);
         int bytesRead;
         int current;
         FileOutputStream fos = null;
         BufferedOutputStream bos = null;
         Socket sock = null;
         
-        System.out.println(1.1);
+//        System.out.println(1.1);
         try {
             sock = new Socket(SERVER, SOCKET_PORT); 
             
-            System.out.println(1.2);
+//            System.out.println(1.2);
             // terima file
             byte[] mybytearray = new byte [FILE_SIZE];
             InputStream is = sock.getInputStream();
@@ -338,20 +339,20 @@ class ClientHandler extends Thread {
             bytesRead = is.read(mybytearray,0,mybytearray.length);
             current = bytesRead;
             
-            System.out.println(1.3);
+//            System.out.println(1.3);
             do {
                 bytesRead = is.read(mybytearray, current, (mybytearray.length-current));
                 if(bytesRead >= 0) current += bytesRead;
             } while(bytesRead > -1);
             
-            System.out.println(1.4);
+//            System.out.println(1.4);
             bos.write(mybytearray, 0, current);
             //bos.write(mybytearray, 0, FILE_SIZE);
             bos.flush();
             fos.flush();
 //            File myFile = new File (file);
 //            myFile.deleteOnExit();
-            System.out.println("1.success");
+//            System.out.println("1.success");
         }
 //        catch(IOException ioEx) {
 //                System.out.println("...");
@@ -360,7 +361,7 @@ class ClientHandler extends Thread {
             if(fos!=null) fos.close();
             if(bos!=null) bos.close();
             if(sock!=null) sock.close();
-            System.out.println("1.finally");
+//            System.out.println("1.finally");
         }
     }
 }

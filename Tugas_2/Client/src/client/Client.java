@@ -61,7 +61,7 @@ public class Client { // TCP/IP
                         getFile(FILE_TO_RECEIVED); //terima file hasil print ls
                         
                         //print file ls
-                        System.out.println("mulai baca");
+//                        System.out.println("mulai baca");
                         try (BufferedReader br = new BufferedReader(new FileReader(FILE_TO_RECEIVED))) {
                             String line;
                             while ((line = br.readLine()) != null)
@@ -167,7 +167,7 @@ public class Client { // TCP/IP
                     }
                 }
                 else if(message.startsWith("wget")) { // ---wget---
-                    //System.out.println("1");
+//                    System.out.println("1");
                     if(message.length()==4)               // "wget" (input salah)
                         System.out.println("wget: missing operrand");
                     else if(message.length()==5) { 
@@ -179,23 +179,23 @@ public class Client { // TCP/IP
                     else if(!message.startsWith("wget "))// "wget%%%%" (input salah)
                         System.out.println(message+": command not found");
                     else if(message.startsWith("wget /")) {                                // "wget %%%%" (input benar)
-                        //System.out.println("2");
-                        //System.out.println(message.substring(5));
+//                        System.out.println("2");
+//                        System.out.println(message.substring(5));
                         try {   
-                            //System.out.println("\n*Masuk wget*");
+//                            System.out.println("\n*Masuk wget*");
                               isFileThere=getFile(message.substring(message.lastIndexOf("/")+1));
     //                        getFile(FILE_TO_RECEIVED);
-                            System.out.println(isFileThere);
+// ------------------------>                           System.out.println(isFileThere);
                             if(isFileThere==0){
-                            System.out.println("mulai baca");
+//                            System.out.println("mulai baca");
                             try (BufferedReader br = new BufferedReader(new FileReader(message.substring(5)))) {
     //                        try (BufferedReader br = new BufferedReader(new FileReader(FILE_TO_RECEIVED))) {
                                 String line;
                                 while ((line = br.readLine()) != null);
-                                    System.out.println(line);
+//                                    System.out.println(line);
                             }
 
-                            System.out.println("File transfered '"+message.substring(5)+"' into Client's Project");
+                            System.out.println("File transfered '"+message.substring(5)+"' into Client Project");
                             }
                             else System.out.println("Error 404: File not found");
                         }
@@ -209,16 +209,17 @@ public class Client { // TCP/IP
                         try {   
                             //System.out.println("\n*Masuk wget 2*");
                             isFileThere=getFile(message.substring(5));
-                            System.out.println(isFileThere);
+// ------------------------>                            System.out.println(isFileThere);
                             if(isFileThere==0){
     //                       getFile(FILE_TO_RECEIVED);
-                            System.out.println("mulai baca");
+//                            System.out.println("mulai baca");
                             try (BufferedReader br = new BufferedReader(new FileReader(message.substring(5)))) {
     //                        try (BufferedReader br = new BufferedReader(new FileReader(FILE_TO_RECEIVED))) {
                                 String line;
                                 while ((line = br.readLine()) !=null );
-                                    System.out.println(line);}
-                            System.out.println("File transfered '"+message.substring(5)+"' into Client's Project");}
+//                                    System.out.println(line);
+                            }
+                            System.out.println("File transfered '"+message.substring(5)+"' into Client Project");}
                             else System.out.println("Error 404: File not found");
                         }
                         catch(IOException ioEx) {
@@ -229,7 +230,7 @@ public class Client { // TCP/IP
                 
                 
                 else if(message.startsWith("upload")) { // ---upload---
-                    System.out.println("1");
+//                    System.out.println("1");
                     if(message.length()==6)               // "upload" (input salah)
                         System.out.println("upload: missing operrand");
                     else if(message.length()==7) { 
@@ -241,8 +242,8 @@ public class Client { // TCP/IP
                     else if(!message.startsWith("upload "))// "upload%%%%" (input salah)
                         System.out.println(message+": command not found");
                     else if(message.startsWith("upload /")) {                                // "upload %%%%" (input benar)
-                        System.out.println("4");
-                        System.out.println(message.substring(7));
+//                        System.out.println("4");
+//                        System.out.println(message.substring(7));
                         try {   
                             sendFile(message.substring(message.lastIndexOf("/")+1));
     //                        getFile(FILE_TO_RECEIVED);
@@ -262,27 +263,27 @@ public class Client { // TCP/IP
                         }
                     }
                     else {                                // "upload %%%%" (input benar)
-                        System.out.println("2");
-                        System.out.println(message.substring(7));
+//                        System.out.println("2");
+//------>                        System.out.println(message.substring(7));
                         try {   
                             sendFile(message.substring(7));
     //                        getFile(FILE_TO_RECEIVED);
 
 //                            System.out.println("mulai baca");
 //                            try (BufferedReader br = new BufferedReader(new FileReader(message.substring(5)))) {
-//    //                        try (BufferedReader br = new BufferedReader(new FileReader(FILE_TO_RECEIVED))) {
+//                            try (BufferedReader br = new BufferedReader(new FileReader(FILE_TO_RECEIVED))) {
 //                                String line;
 //                                while ((line = br.readLine()) != null);
 //                                    System.out.println(line);
 //                            }
 
-                            System.out.println("File transfered '"+message.substring(7)+"'");
+                            System.out.println("File transfered '"+message.substring(7)+"' into Server Project");
                         }
                         catch(IOException ioEx) {
                             System.out.println("Error 404: File not found");
                         }
                     }
-                    System.out.println("3");
+//                    System.out.println("3");
                 }
                 
                 else // selain cd, ls, mkdir, wget
@@ -290,7 +291,7 @@ public class Client { // TCP/IP
             } while (!message.equals("")); // tekan enter untuk keluar
         }
         catch(IOException ioEx) {
-            System.out.println(0);
+//            System.out.println(0);
             ioEx.printStackTrace();
         }
         finally { // tutup koneksi
@@ -304,7 +305,7 @@ public class Client { // TCP/IP
                 System.exit(1);
             }
         }
-        System.out.println("selesai");
+//        System.out.println("selesai");
     }
     
     public final static String FILE_TO_SEND = "build/classes/temp.xml";
@@ -314,41 +315,41 @@ public class Client { // TCP/IP
     public final static String SERVER = "127.0.0.1";  // localhost
     
     public static void sendFile(String file) throws IOException {
-        System.out.println(1.2);
+//        System.out.println(1.2);
         FileInputStream fis = null;
         BufferedInputStream bis = null;
         OutputStream os = null;
         ServerSocket servsock = null;
         Socket sock = null;
         try {
-            System.out.println(1.3);
+//            System.out.println(1.3);
             servsock = new ServerSocket(SOCKET_PORT); // buat socket server untuk kirim file
             try {
-                System.out.println(file);
-                System.out.println(1.4);
+//                System.out.println(file);
+//                System.out.println(1.4);
                 sock = servsock.accept();
                 
-                System.out.println(1.5);
+//                System.out.println(1.5);
                 File myFile = new File (file);
                 //myFile.deleteOnExit();
                 
                 // kirim file
-                System.out.println(1.6);
+//                System.out.println(1.6);
                 byte[] mybytearray = new byte [(int)myFile.length()];
                 fis = new FileInputStream(myFile);
                 bis = new BufferedInputStream(fis);
-                System.out.println(1.7);
+//                System.out.println(1.7);
                 bis.read(mybytearray,0,mybytearray.length);
                 os = sock.getOutputStream();
                 os.write(mybytearray,0,mybytearray.length);
                 os.flush();
-                System.out.println("1.success");
+//                System.out.println("1.success");
             }
             finally {
                 if(bis!=null) bis.close();
                 if(os!=null) os.close();
                 if(sock!=null) sock.close();
-                System.out.println("1.finally");
+//                System.out.println("1.finally");
             }
         }
         finally {
@@ -357,7 +358,7 @@ public class Client { // TCP/IP
     }
     
     public static int getFile(String file) throws IOException {
-        System.out.println(file);
+//        System.out.println(file);
         int bytesRead;
         int current;
         int retval;
@@ -365,12 +366,12 @@ public class Client { // TCP/IP
         BufferedOutputStream bos = null;
         Socket sock = null;
         
-        System.out.println(1.1);
+//        System.out.println(1.1);
         try {
             input.nextLine();
             sock = new Socket(SERVER, SOCKET_PORT); 
             
-            System.out.println(1.2);
+//            System.out.println(1.2);
             // terima file
             byte[] mybytearray = new byte [FILE_SIZE];
             InputStream is = sock.getInputStream();
@@ -379,13 +380,13 @@ public class Client { // TCP/IP
             bytesRead = is.read(mybytearray,0,mybytearray.length);
             current = bytesRead;
             
-            System.out.println(1.3);
+//            System.out.println(1.3);
             do {
                 bytesRead = is.read(mybytearray, current, (mybytearray.length-current));
                 if(bytesRead >= 0) current += bytesRead;
             } while(bytesRead > -1);
             
-            System.out.println(1.4);
+//            System.out.println(1.4);
             //System.out.println(current);
             if(current>=0){
                 bos.write(mybytearray, 0, current);
@@ -393,12 +394,12 @@ public class Client { // TCP/IP
                 fos.flush();
 //            File myFile = new File (file);
 //            myFile.deleteOnExit();
-                System.out.println("1.success");
+//                System.out.println("1.success");
                 retval=0;
             }
             else
             {
-                System.out.println("1.not success but not fail either");
+//                System.out.println("1.not success but not fail either");
                 retval=1;
             }
             
@@ -414,7 +415,7 @@ public class Client { // TCP/IP
             if(fos!=null) fos.close();
             if(bos!=null) bos.close();
             if(sock!=null) sock.close();
-            System.out.println("1.finally");
+//            System.out.println("1.finally");
         }
         return retval;
     }
