@@ -159,7 +159,7 @@ class ClientHandler extends Thread {
         catch(IOException ioEx) {
             //System.out.println("Unable to disconnect!");
         }
-        
+        System.out.println("End");
         try {
             if (client!=null) {
                 System.out.println("Closing down connection...");
@@ -266,14 +266,24 @@ class ClientHandler extends Thread {
                 // kirim file
                 System.out.println(1.6);
                 byte[] mybytearray = new byte [(int)myFile.length()];
-                fis = new FileInputStream(myFile);
-                bis = new BufferedInputStream(fis);
-                System.out.println(1.7);
-                bis.read(mybytearray,0,mybytearray.length);
-                os = sock.getOutputStream();
-                os.write(mybytearray,0,mybytearray.length);
-                os.flush();
-                System.out.println("1.success");
+                if(myFile.length()!=0)
+                {
+                    fis = new FileInputStream(myFile);
+                    bis = new BufferedInputStream(fis);
+                    System.out.println(1.7);
+                    bis.read(mybytearray,0,mybytearray.length);
+                    os = sock.getOutputStream();
+                    os.write(mybytearray,0,mybytearray.length);
+                    //System.out.write(mybytearray,0,mybytearray.length);
+                    os.flush();
+                    System.out.println("1.success");
+                }
+                else
+                {
+                    os = sock.getOutputStream();
+                    os.write(mybytearray,0,mybytearray.length);
+                    System.out.println("1.no file");
+                }
             }
             finally {
                 if(bis!=null) bis.close();
@@ -284,6 +294,7 @@ class ClientHandler extends Thread {
         }
         finally {
             if(servsock!=null) servsock.close();
+            //System.out.println("error");
         }
     }
 }
