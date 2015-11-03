@@ -18,6 +18,7 @@ public class Client { // TCP/IP
      */
     private static InetAddress host;
     private static final int PORT = 1234;
+    private static Scanner input;
     
     public static void main(String[] args) throws ClassNotFoundException {
         // TODO code application logic here
@@ -37,7 +38,7 @@ public class Client { // TCP/IP
             link = new Socket(host,PORT); // buat koneksi ke server
             
             // buat aliran data input output
-            Scanner input = new Scanner(link.getInputStream()); // gk butuh, karena udah pake transfer file
+            input = new Scanner(link.getInputStream()); // gk butuh, karena udah pake transfer file
             PrintWriter output = new PrintWriter(link.getOutputStream(),true);
             
             String message, dir = "/", dir1 = "/";
@@ -116,6 +117,7 @@ public class Client { // TCP/IP
                     
                     else if(message.startsWith("cd /")) {
                         getFile(FILE_TO_RECEIVED);
+                        System.out.println("Abaikan");
                         try (BufferedReader br = new BufferedReader(new FileReader(FILE_TO_RECEIVED))) {
                             String line;
                             while ((line = br.readLine()) != null) {
@@ -141,6 +143,7 @@ public class Client { // TCP/IP
                     
                     else {
                         getFile(FILE_TO_RECEIVED);
+                        System.out.println("Abaikan");
                         try (BufferedReader br = new BufferedReader(new FileReader(FILE_TO_RECEIVED))) {
                             String line;
                             while ((line = br.readLine()) != null) {
@@ -252,6 +255,7 @@ public class Client { // TCP/IP
         
         System.out.println(1.1);
         try {
+            input.nextLine();
             sock = new Socket(SERVER, SOCKET_PORT); 
             
             System.out.println(1.2);

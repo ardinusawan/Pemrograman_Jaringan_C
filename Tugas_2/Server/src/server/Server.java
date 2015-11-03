@@ -45,7 +45,7 @@ public class Server {
 class ClientHandler extends Thread {
      private Socket client;
      private Scanner input;
-     private PrintWriter output;
+     private static PrintWriter output;
      public ClientHandler(Socket socket)
      {
         //Set up reference to associated socket...
@@ -256,6 +256,7 @@ class ClientHandler extends Thread {
             try {
                 System.out.println(file);
                 System.out.println(1.4);
+                output.println("no more race condition fam");
                 sock = servsock.accept();
                 
                 System.out.println(1.5);
