@@ -1,2 +1,6 @@
 # Pemrograman_Jaringan_C
-Klub yang terdiri dari Ardi Nusawan, Dhiaz, Faiz (Rajin), dan Dhanar
+Anggota:
+5113100006 Aldhiaz Fathra Daiva
+5113100049 Dhanar Prayoga
+5113100096 Ardi Nusawan
+5113100111 Faizuddarain Syam
