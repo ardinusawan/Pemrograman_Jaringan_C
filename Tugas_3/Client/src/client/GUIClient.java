@@ -6,9 +6,13 @@
 package client;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -32,13 +36,76 @@ public class GUIClient extends javax.swing.JFrame {
     }
     
     public class IncomingReader implements Runnable{
+    @Override
     public void run(){
         String[] data;
         String stream, done = "Done",connect = "Connect", disconnect = "Disconnect", chat = "Chat";
-        
+        try {
+            while((stream = reader.readLine())!=null){
+                data = stream.split(":");
+                if(data[2].equals(chat)){
+                    chatTextArea.append(data[0] + ":" + data[1] + "\n");
+                    chatTextArea.setCaretPosition(chatTextArea.getDocument().getLength());
+                }
+                else if (data[2].equals(connect)){
+                    chatTextArea.removeAll();
+                    userAdd(data[0]);
+                }
+                else if(data[2].equals(disconnect)){
+                    userRemove(data[0]);
+                }
+                else if (data[2].equals(done)){
+                    //usersList.setText("");
+                    writeUsers();
+                    userList.clear();
+                }
+               
+            }
+                } catch (IOException ex) {
+            Logger.getLogger(GUIClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 } 
+    
+    public void ListenThread(){
+        Thread IncomingReader = new Thread (new IncomingReader());
+        IncomingReader.start();
+    }
+    
+    public void userAdd(String data){
+        userList.add(data);
+    }
+    
+    public void userRemove(String data){
+        chatTextArea.append(data + " has disconnected.\n");
+    }
+    
+    public void writeUsers(){
+        String[] tempList = new String[(userList.size())];
+        userList.toArray(tempList);
+        for (String token:tempList){
+            //usersList.append(token + "\n");
+        }
+    }
 
+    public void sendDisconnect(){
+        String bye = (username + ": : Disconnect");
+        writer.println(bye);
+        writer.flush();
+    }
+    
+    public void Disconnect() {
+        try {
+            chatTextArea.append("Disconnected.\n");
+            sock.close();
+        } catch (IOException ex) {
+            Logger.getLogger(GUIClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        isConnected = false;
+        usernameField.setEditable(true);
+        //usersList.setText("");
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,7 +120,7 @@ public class GUIClient extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         usernameField = new javax.swing.JTextField();
-        conectButton = new javax.swing.JButton();
+        connectButton = new javax.swing.JButton();
         disconnectButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -74,10 +141,10 @@ public class GUIClient extends javax.swing.JFrame {
             }
         });
 
-        conectButton.setText("Connect");
-        conectButton.addActionListener(new java.awt.event.ActionListener() {
+        connectButton.setText("Connect");
+        connectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                conectButtonActionPerformed(evt);
+                connectButtonActionPerformed(evt);
             }
         });
 
@@ -140,7 +207,7 @@ public class GUIClient extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(conectButton)
+                        .addComponent(connectButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(disconnectButton)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -153,12 +220,13 @@ public class GUIClient extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(disconnectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(conectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(disconnectButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(connectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -180,9 +248,27 @@ public class GUIClient extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameFieldActionPerformed
 
-    private void conectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conectButtonActionPerformed
+    private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_conectButtonActionPerformed
+        if(isConnected == false){
+            username = usernameField.getText();
+            usernameField.setEditable(false);
+            try {
+                sock = new Socket(serverIP, Port);
+                InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
+                reader = new BufferedReader(streamreader);
+                writer = new PrintWriter(sock.getOutputStream());
+                writer.println(username + ":has connected.:Connect");
+                writer.flush();
+                isConnected = true;
+            } catch (IOException ex) {
+                chatTextArea.append("Cannot Connect! Try Again. \n");
+                usernameField.setEditable(true);
+                //Logger.getLogger(GUIClient.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+    }//GEN-LAST:event_connectButtonActionPerformed
 
     private void disconnectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disconnectButtonActionPerformed
         // TODO add your handling code here:
@@ -237,7 +323,7 @@ public class GUIClient extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea chatTextArea;
-    private javax.swing.JButton conectButton;
+    private javax.swing.JButton connectButton;
     private javax.swing.JButton disconnectButton;
     private javax.swing.JTextField gameArea;
     private javax.swing.JTextField inputTextArea;
