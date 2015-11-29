@@ -290,6 +290,19 @@ public class GUIClient extends javax.swing.JFrame {
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
         // TODO add your handling code here:
+        String nothing = "";
+        if((inputTextArea.getText()).equals(nothing)){
+            inputTextArea.setText("");
+            inputTextArea.requestFocus();
+        }
+        else {
+            writer.println(username + ":" + inputTextArea.getText() + ":" + "Chat");
+            writer.flush();
+            inputTextArea.setText("");
+            inputTextArea.requestFocus();
+        }
+        inputTextArea.setText("");
+        inputTextArea.requestFocus();
     }//GEN-LAST:event_sendButtonActionPerformed
 
     /**
