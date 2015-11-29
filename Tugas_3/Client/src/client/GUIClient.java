@@ -55,7 +55,7 @@ public class GUIClient extends javax.swing.JFrame {
                     userRemove(data[0]);
                 }
                 else if (data[2].equals(done)){
-                    //usersList.setText("");
+                    onlineUsersArea.setText("");
                     writeUsers();
                     userList.clear();
                 }
@@ -84,7 +84,7 @@ public class GUIClient extends javax.swing.JFrame {
         String[] tempList = new String[(userList.size())];
         userList.toArray(tempList);
         for (String token:tempList){
-            //usersList.append(token + "\n");
+            onlineUsersArea.append(token + "\n");
         }
     }
 
@@ -103,7 +103,7 @@ public class GUIClient extends javax.swing.JFrame {
         }
         isConnected = false;
         usernameField.setEditable(true);
-        //usersList.setText("");
+        onlineUsersArea.setText("");
     }
     
     /**
@@ -246,6 +246,7 @@ public class GUIClient extends javax.swing.JFrame {
 
     private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
         // TODO add your handling code here:
+        //bukan disini
     }//GEN-LAST:event_usernameFieldActionPerformed
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
@@ -266,12 +267,17 @@ public class GUIClient extends javax.swing.JFrame {
                 usernameField.setEditable(true);
                 //Logger.getLogger(GUIClient.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+            ListenThread();
+        }
+        else if(isConnected == true){
+            chatTextArea.append("You are already connected! \n");
         }
     }//GEN-LAST:event_connectButtonActionPerformed
 
     private void disconnectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disconnectButtonActionPerformed
         // TODO add your handling code here:
+        sendDisconnect();
+        Disconnect();
     }//GEN-LAST:event_disconnectButtonActionPerformed
 
     private void gameAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gameAreaActionPerformed
