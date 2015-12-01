@@ -72,7 +72,7 @@ public class GUIServer extends javax.swing.JFrame {
                     }
             }} catch (IOException ex) {
             //Logger.getLogger(GUIServer.class.getName()).log(Level.SEVERE, null, ex);
-            outputPane.append(":ost a connection. \n");
+            outputPane.append(":lost a connection. \n");
             ex.printStackTrace();
             clientOutputStreams.remove(client);
         }
@@ -215,7 +215,7 @@ public class GUIServer extends javax.swing.JFrame {
                     Thread listener = new Thread(new ClientHandler(clientSock,writer));
                     listener.start();
                     outputPane.append("Got a connection. \n");
-            }
+                }
             } catch (IOException ex) {
                 //Logger.getLogger(GUIServer.class.getName()).log(Level.SEVERE, null, ex);
                 outputPane.append("Error making a connection. \n");

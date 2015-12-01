@@ -89,7 +89,7 @@ public class GUIClient extends javax.swing.JFrame {
     }
 
     public void sendDisconnect(){
-        String bye = (username + ": : Disconnect");
+        String bye = (username + ": :Disconnect");
         writer.println(bye);
         writer.flush();
     }
@@ -290,19 +290,24 @@ public class GUIClient extends javax.swing.JFrame {
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
         // TODO add your handling code here:
-        String nothing = "";
-        if((inputTextArea.getText()).equals(nothing)){
+        if(!isConnected){
+            chatTextArea.append("You are offline!\n");
+        }
+        else{
+            String nothing = "";
+            if((inputTextArea.getText()).equals(nothing)){
+                inputTextArea.setText("");
+                inputTextArea.requestFocus();
+            }
+            else {
+                writer.println(username + ":" + inputTextArea.getText() + ":" + "Chat");
+                writer.flush();
+                inputTextArea.setText("");
+                inputTextArea.requestFocus();
+            }
             inputTextArea.setText("");
             inputTextArea.requestFocus();
         }
-        else {
-            writer.println(username + ":" + inputTextArea.getText() + ":" + "Chat");
-            writer.flush();
-            inputTextArea.setText("");
-            inputTextArea.requestFocus();
-        }
-        inputTextArea.setText("");
-        inputTextArea.requestFocus();
     }//GEN-LAST:event_sendButtonActionPerformed
 
     /**
