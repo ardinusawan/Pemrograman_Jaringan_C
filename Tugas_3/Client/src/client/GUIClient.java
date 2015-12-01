@@ -180,6 +180,11 @@ public class GUIClient extends javax.swing.JFrame {
                 inputTextAreaActionPerformed(evt);
             }
         });
+        inputTextArea.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                inputTextAreaKeyPressed(evt);
+            }
+        });
 
         sendButton.setText("SEND!");
         sendButton.addActionListener(new java.awt.event.ActionListener() {
@@ -309,6 +314,30 @@ public class GUIClient extends javax.swing.JFrame {
             inputTextArea.requestFocus();
         }
     }//GEN-LAST:event_sendButtonActionPerformed
+
+    private void inputTextAreaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputTextAreaKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode()==java.awt.event.KeyEvent.VK_ENTER){
+            if(!isConnected){
+                chatTextArea.append("You are offline!\n");
+                }
+            else{
+                String nothing = "";
+                if((inputTextArea.getText()).equals(nothing)){
+                    inputTextArea.setText("");
+                    inputTextArea.requestFocus();
+                }
+                else {
+                    writer.println(username + ":" + inputTextArea.getText() + ":" + "Chat");
+                    writer.flush();
+                    inputTextArea.setText("");
+                    inputTextArea.requestFocus();
+                }
+                inputTextArea.setText("");
+                inputTextArea.requestFocus();
+            }
+        }
+    }//GEN-LAST:event_inputTextAreaKeyPressed
 
     /**
      * @param args the command line arguments

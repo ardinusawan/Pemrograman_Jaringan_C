@@ -160,6 +160,7 @@
     <Component class="javax.swing.JTextField" name="inputTextArea">
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inputTextAreaActionPerformed"/>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="inputTextAreaKeyPressed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="sendButton">
