@@ -5,6 +5,7 @@
  */
 package client;
 
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -127,9 +128,9 @@ public class GUIClient extends javax.swing.JFrame {
         onlineUsersArea = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         chatTextArea = new javax.swing.JTextArea();
-        gameArea = new javax.swing.JTextField();
         inputTextArea = new javax.swing.JTextField();
         sendButton = new javax.swing.JButton();
+        game1 = new client.Game();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -169,12 +170,6 @@ public class GUIClient extends javax.swing.JFrame {
         chatTextArea.setRows(5);
         jScrollPane2.setViewportView(chatTextArea);
 
-        gameArea.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gameAreaActionPerformed(evt);
-            }
-        });
-
         inputTextArea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputTextAreaActionPerformed(evt);
@@ -193,20 +188,29 @@ public class GUIClient extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout game1Layout = new javax.swing.GroupLayout(game1);
+        game1.setLayout(game1Layout);
+        game1Layout.setHorizontalGroup(
+            game1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        game1Layout.setVerticalGroup(
+            game1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 312, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(gameArea)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(inputTextArea, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(sendButton))
-                        .addComponent(jScrollPane2))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(inputTextArea, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(sendButton))
+                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -214,7 +218,8 @@ public class GUIClient extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(connectButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(disconnectButton)))
+                        .addComponent(disconnectButton))
+                    .addComponent(game1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
@@ -235,8 +240,8 @@ public class GUIClient extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(gameArea, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(game1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -285,10 +290,6 @@ public class GUIClient extends javax.swing.JFrame {
         Disconnect();
     }//GEN-LAST:event_disconnectButtonActionPerformed
 
-    private void gameAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gameAreaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_gameAreaActionPerformed
-
     private void inputTextAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputTextAreaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_inputTextAreaActionPerformed
@@ -317,7 +318,9 @@ public class GUIClient extends javax.swing.JFrame {
 
     private void inputTextAreaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputTextAreaKeyPressed
         // TODO add your handling code here:
-        if (evt.getKeyCode()==java.awt.event.KeyEvent.VK_ENTER){
+        int c = evt.getKeyCode();
+        
+        if (c==java.awt.event.KeyEvent.VK_ENTER){
             if(!isConnected){
                 chatTextArea.append("You are offline!\n");
                 }
@@ -337,6 +340,33 @@ public class GUIClient extends javax.swing.JFrame {
                 inputTextArea.requestFocus();
             }
         }
+        if(c==KeyEvent.VK_LEFT){
+            game1.kiri();
+            //gambar();
+        }
+        else if(c==KeyEvent.VK_RIGHT){
+            game1.kanan();
+            //gambar();
+            
+        }
+        else if(c==KeyEvent.VK_UP){
+            game1.atas();
+            //gambar();
+           
+        }
+        else if(c==KeyEvent.VK_DOWN){
+            game1.bawah();
+            //gambar();
+            
+        }
+        
+        
+        System.out.println(game1.velX+" "+game1.velY);
+        game1.person.x = game1.person.x + game1.velX;
+        game1.person.y = game1.person.y + game1.velY;
+        System.out.println("x: "+ game1.person.x + " " + game1.velX);
+        System.out.println("y: "+ game1.person.y + " " + game1.velY);
+        repaint();
     }//GEN-LAST:event_inputTextAreaKeyPressed
 
     /**
@@ -378,7 +408,7 @@ public class GUIClient extends javax.swing.JFrame {
     private javax.swing.JTextArea chatTextArea;
     private javax.swing.JButton connectButton;
     private javax.swing.JButton disconnectButton;
-    private javax.swing.JTextField gameArea;
+    private client.Game game1;
     private javax.swing.JTextField inputTextArea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

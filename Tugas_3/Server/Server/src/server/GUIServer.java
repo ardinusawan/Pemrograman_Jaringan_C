@@ -215,7 +215,7 @@ public class GUIServer extends javax.swing.JFrame {
                     Thread listener = new Thread(new ClientHandler(clientSock,writer));
                     listener.start();
                     outputPane.append("Got a connection. \n");
-                }
+            }
             } catch (IOException ex) {
                 //Logger.getLogger(GUIServer.class.getName()).log(Level.SEVERE, null, ex);
                 outputPane.append("Error making a connection. \n");
