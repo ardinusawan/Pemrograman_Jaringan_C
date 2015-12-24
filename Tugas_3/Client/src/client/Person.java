@@ -12,5 +12,4 @@ package client;
 public class Person {
     public int x;
     public int y;
-    
 }

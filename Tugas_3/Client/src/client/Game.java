@@ -26,8 +26,10 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 
     private Image dude;
     Person person;
-    public int velX, velY;
+    private int velX, velY;
     private Timer t = new Timer(7, this);
+    String gambarOrang="pleaseLogin.jpg";
+    
     //Scanner s=new Scanner(System.in);
     
     public Game(){
@@ -46,6 +48,13 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 //        this.add(comboBox);
 //        comboBox.setFocusable(false);
     }
+    
+    public void gameLogin()
+    {
+        this.gambarOrang="dudemini-left.png";
+        this.repaint();
+        
+    }
 
 //    @Override
 //    public void paint(Graphics g){
@@ -60,7 +69,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        ImageIcon ii = new ImageIcon(this.getClass().getResource("dudemini.png"));
+        ImageIcon ii = new ImageIcon(this.getClass().getResource(gambarOrang));
         dude = ii.getImage();
         Graphics2D g2d =(Graphics2D)g;
 //        System.out.println("Repaint " + person.x + " " + velX);
@@ -74,46 +83,29 @@ public class Game extends JPanel implements KeyListener, ActionListener{
     }
     
     public void kiri(){
-        this.velX = -1;
+        this.velX = -10;
         this.velY = 0;
+        gambarOrang="dudemini-left.png";
     }
     public void kanan(){
-        this.velX = 1;
+        this.velX = 10;
         this.velY = 0;
+        gambarOrang="dudemini-right.png";
     }
     public void atas(){
         this.velX = 0;
-        this.velY = -1;
+        this.velY = -10;
+        gambarOrang="dudemini-up.png";
     }
     public void bawah(){
         this.velX = 0;
-        this.velY = 1;
+        this.velY = 10;
+        gambarOrang="dudemini-down.png";
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        int c = e.getKeyCode();
-//        System.out.println(c);
-        if(c==KeyEvent.VK_LEFT){
-            kiri();
-            //gambar();
-        }
-        else if(c==KeyEvent.VK_RIGHT){
-            kanan();
-            //gambar();
-            
-        }
-        else if(c==KeyEvent.VK_UP){
-            atas();
-            //gambar();
-           
-        }
-        else if(c==KeyEvent.VK_DOWN){
-            bawah();
-            //gambar();
-            
-        }
-       
+ 
 //        repaint();
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -125,12 +117,16 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //System.out.println("this is action performed");
-        //if(this.velX==-1) System.out.println("kiri"); 
-        //System.out.println("not lol :(");
         
-       
-        
+    }
+    
+    public void gameMovement(){
+        System.out.println(this.velX+" "+this.velY);
+        this.person.x = this.person.x + this.velX;
+        this.person.y = this.person.y + this.velY;
+        System.out.println("x: "+ this.person.x + " " + this.velX);
+        System.out.println("y: "+ this.person.y + " " + this.velY);
+        repaint();
     }
     
     /*public void gambar(){

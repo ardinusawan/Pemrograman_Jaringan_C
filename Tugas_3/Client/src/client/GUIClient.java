@@ -272,6 +272,7 @@ public class GUIClient extends javax.swing.JFrame {
                 writer.println(username + ":has connected.:Connect");
                 writer.flush();
                 isConnected = true;
+                game1.gameLogin();
             } catch (IOException ex) {
                 chatTextArea.append("Cannot Connect! Try Again. \n");
                 usernameField.setEditable(true);
@@ -340,6 +341,7 @@ public class GUIClient extends javax.swing.JFrame {
                 inputTextArea.requestFocus();
             }
         }
+        if(isConnected){
         if(c==KeyEvent.VK_LEFT){
             game1.kiri();
             //gambar();
@@ -359,14 +361,9 @@ public class GUIClient extends javax.swing.JFrame {
             //gambar();
             
         }
+        game1.gameMovement();
+        }
         
-        
-        System.out.println(game1.velX+" "+game1.velY);
-        game1.person.x = game1.person.x + game1.velX;
-        game1.person.y = game1.person.y + game1.velY;
-        System.out.println("x: "+ game1.person.x + " " + game1.velX);
-        System.out.println("y: "+ game1.person.y + " " + game1.velY);
-        repaint();
     }//GEN-LAST:event_inputTextAreaKeyPressed
 
     /**
