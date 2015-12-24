@@ -116,7 +116,7 @@ public class GUIClient extends javax.swing.JFrame {
     
     
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
@@ -252,14 +252,14 @@ public class GUIClient extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
-    private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
+    private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {                                              
         // TODO add your handling code here:
         //bukan disini
-    }//GEN-LAST:event_usernameFieldActionPerformed
+    }                                             
 
-    private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
+    private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {                                              
         // TODO add your handling code here:
         if(isConnected == false){
             username = usernameField.getText();
@@ -283,19 +283,19 @@ public class GUIClient extends javax.swing.JFrame {
         else if(isConnected == true){
             chatTextArea.append("You are already connected! \n");
         }
-    }//GEN-LAST:event_connectButtonActionPerformed
+    }                                             
 
-    private void disconnectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disconnectButtonActionPerformed
+    private void disconnectButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                 
         // TODO add your handling code here:
         sendDisconnect();
         Disconnect();
-    }//GEN-LAST:event_disconnectButtonActionPerformed
+    }                                                
 
-    private void inputTextAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputTextAreaActionPerformed
+    private void inputTextAreaActionPerformed(java.awt.event.ActionEvent evt) {                                              
         // TODO add your handling code here:
-    }//GEN-LAST:event_inputTextAreaActionPerformed
+    }                                             
 
-    private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
+    private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
         // TODO add your handling code here:
         if(!isConnected){
             chatTextArea.append("You are offline!\n");
@@ -315,9 +315,9 @@ public class GUIClient extends javax.swing.JFrame {
             inputTextArea.setText("");
             inputTextArea.requestFocus();
         }
-    }//GEN-LAST:event_sendButtonActionPerformed
+    }                                          
 
-    private void inputTextAreaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputTextAreaKeyPressed
+    private void inputTextAreaKeyPressed(java.awt.event.KeyEvent evt) {                                         
         // TODO add your handling code here:
         int c = evt.getKeyCode();
         
@@ -367,7 +367,7 @@ public class GUIClient extends javax.swing.JFrame {
 //        game1.gameMovement();
         }
         
-    }//GEN-LAST:event_inputTextAreaKeyPressed
+    }                                        
 
     /**
      * @param args the command line arguments
@@ -404,7 +404,7 @@ public class GUIClient extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JTextArea chatTextArea;
     private javax.swing.JButton connectButton;
     private javax.swing.JButton disconnectButton;
@@ -417,5 +417,6 @@ public class GUIClient extends javax.swing.JFrame {
     private javax.swing.JTextArea onlineUsersArea;
     private javax.swing.JButton sendButton;
     private javax.swing.JTextField usernameField;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
 }
+      
