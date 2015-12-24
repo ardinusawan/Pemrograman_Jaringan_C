@@ -26,7 +26,6 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 
     private Image dude;
     Person person;
-    private int velX, velY;
     private Timer t = new Timer(7, this);
     String gambarOrang="pleaseLogin.jpg";
     
@@ -36,8 +35,6 @@ public class Game extends JPanel implements KeyListener, ActionListener{
         super.setDoubleBuffered(true);
         
         person = new Person();
-        person.x = person.y = 100;
-        this.velX = this.velY = 0;
         t.start();
         addKeyListener(this);
         setFocusable(true);
@@ -83,23 +80,23 @@ public class Game extends JPanel implements KeyListener, ActionListener{
     }
     
     public void kiri(){
-        this.velX = -10;
-        this.velY = 0;
+        person.velX = -10;
+        person.velY = 0;
         gambarOrang="dudemini-left.png";
     }
     public void kanan(){
-        this.velX = 10;
-        this.velY = 0;
+        person.velX = 10;
+        person.velY = 0;
         gambarOrang="dudemini-right.png";
     }
     public void atas(){
-        this.velX = 0;
-        this.velY = -10;
+        person.velX = 0;
+        person.velY = -10;
         gambarOrang="dudemini-up.png";
     }
     public void bawah(){
-        this.velX = 0;
-        this.velY = 10;
+        person.velX = 0;
+        person.velY = 10;
         gambarOrang="dudemini-down.png";
     }
 
@@ -120,14 +117,9 @@ public class Game extends JPanel implements KeyListener, ActionListener{
         
     }
     
-    public void gameMovement(){
-        System.out.println(this.velX+" "+this.velY);
-        this.person.x = this.person.x + this.velX;
-        this.person.y = this.person.y + this.velY;
-        System.out.println("x: "+ this.person.x + " " + this.velX);
-        System.out.println("y: "+ this.person.y + " " + this.velY);
-        repaint();
-    }
+//    public void gameMovement(){
+//        
+//    }
     
     /*public void gambar(){
         System.out.println(this.velX+" "+velY);

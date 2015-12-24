@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  */
 public class GUIClient extends javax.swing.JFrame {
 
-    String username, serverIP = "localhost";
+    String username, serverIP = "10.151.40.130";
     int Port = 5000;
     Socket sock;
     BufferedReader reader;
@@ -361,7 +361,10 @@ public class GUIClient extends javax.swing.JFrame {
             //gambar();
             
         }
-        game1.gameMovement();
+        game1.person.movement();
+        game1.person.batas();
+        game1.repaint();
+//        game1.gameMovement();
         }
         
     }//GEN-LAST:event_inputTextAreaKeyPressed
