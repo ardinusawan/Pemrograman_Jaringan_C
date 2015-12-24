@@ -26,7 +26,6 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 
     private Image dude;
     Person person;
-    public int velX, velY;
     private Timer t = new Timer(7, this);
     //Scanner s=new Scanner(System.in);
     
@@ -34,8 +33,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
         super.setDoubleBuffered(true);
         
         person = new Person();
-        person.x = person.y = 100;
-        this.velX = this.velY = 0;
+        person.x = person.y = 0;
         t.start();
         addKeyListener(this);
         setFocusable(true);
@@ -74,20 +72,20 @@ public class Game extends JPanel implements KeyListener, ActionListener{
     }
     
     public void kiri(){
-        this.velX = -1;
-        this.velY = 0;
+        person.velX = -1;
+        person.velY = 0;
     }
     public void kanan(){
-        this.velX = 1;
-        this.velY = 0;
+        person.velX = 1;
+        person.velY = 0;
     }
     public void atas(){
-        this.velX = 0;
-        this.velY = -1;
+        person.velX = 0;
+        person.velY = -1;
     }
     public void bawah(){
-        this.velX = 0;
-        this.velY = 1;
+        person.velX = 0;
+        person.velY = 1;
     }
 
     @Override

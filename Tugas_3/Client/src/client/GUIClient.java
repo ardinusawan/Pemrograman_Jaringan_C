@@ -360,12 +360,8 @@ public class GUIClient extends javax.swing.JFrame {
             
         }
         
-        
-        System.out.println(game1.velX+" "+game1.velY);
-        game1.person.x = game1.person.x + game1.velX;
-        game1.person.y = game1.person.y + game1.velY;
-        System.out.println("x: "+ game1.person.x + " " + game1.velX);
-        System.out.println("y: "+ game1.person.y + " " + game1.velY);
+        this.game1.person.batas();
+        this.game1.person.move();
         repaint();
     }//GEN-LAST:event_inputTextAreaKeyPressed
 
