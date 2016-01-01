@@ -44,10 +44,6 @@ public class Game extends JPanel implements KeyListener, ActionListener{
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         
-//        JComboBox<String> comboBox = new JComboBox<String>();
-//        comboBox.addItem("game1");
-//        this.add(comboBox);
-//        comboBox.setFocusable(false);
     }
     
     public void gameLogin(GUIClient gui)
@@ -57,16 +53,6 @@ public class Game extends JPanel implements KeyListener, ActionListener{
         this.repaint();
     }
 
-//    @Override
-//    public void paint(Graphics g){
-//        super.paint(g);
-//        ImageIcon ii = new ImageIcon(this.getClass().getResource("dudemini.png"));
-//        dude = ii.getImage();
-//        Graphics2D g2d =(Graphics2D)g;
-//        System.out.println("Repaint " + person.x + " " + velX);
-//        g2d.drawImage(dude,person.x,person.y, this);
-//    }
-    
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -82,6 +68,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
                 ImageIcon ii = new ImageIcon(this.getClass().getResource(iter.gambarOrang));
                 Image dude = ii.getImage();
                 Graphics2D g2d =(Graphics2D)g;
+                g2d.drawString(iter.x + " " + iter.y, iter.x, iter.y);
                 g2d.drawImage(dude,iter.x,iter.y, this);
             }
             
