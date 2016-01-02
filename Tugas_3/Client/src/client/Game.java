@@ -28,7 +28,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 
     //private Image dude;
     Person person;
-    GUIClient gui;
+    GUIClient2 gui;
     private Timer t = new Timer(7, this);
     public boolean loggedIn=false;
     String gambarOrang="pleaseLogin.jpg";
@@ -46,7 +46,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
         
     }
     
-    public void gameLogin(GUIClient gui)
+    public void gameLogin(GUIClient2 gui)
     {
         loggedIn=true;
         this.gui=gui;
@@ -69,6 +69,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
                 Image dude = ii.getImage();
                 Graphics2D g2d =(Graphics2D)g;
                 g2d.drawString(iter.x + " " + iter.y, iter.x, iter.y);
+//                g2d.drawString(iter.x + " " + iter.y, iter.x +1, iter.y);
                 g2d.drawImage(dude,iter.x,iter.y, this);
             }
             
@@ -112,6 +113,10 @@ public class Game extends JPanel implements KeyListener, ActionListener{
         System.out.println("y: "+ person.y + " " + velY);
         
     }*/
+
+//    void gameLogin(GUIClient2 gui) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 
 }
 

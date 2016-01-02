@@ -10,6 +10,7 @@ package person;
  * @author dhanarp
  */
 
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -28,10 +29,13 @@ public class Person implements Serializable{
     private int batas_kiri = 0;
     private int batas_kanan = 449;
     public String gambarOrang;
+    public boolean readyToFire = true, shoot = false;
+    Bullet B;
     
 public Person(String input){
     this.nama=input;
     gambarOrang="dudemini-left.png";
+//    B = new Bullet();
 }
    
 public void batas(){
@@ -78,4 +82,18 @@ public void kiri(){
         velY = 10;
         gambarOrang="dudemini-down.png";
     }
+    public void tembak() throws IOException{
+//       B.sendBullet();
+        if(shoot=true){
+//        System.out.println("tembak!!!");
+        B = new Bullet();
+        B.sendBullet();
+        }
+        else{
+        System.out.print("gaiso nembak");   
+        }
+
+        }
+    
+    
 }

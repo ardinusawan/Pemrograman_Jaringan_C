@@ -16,7 +16,7 @@ public class Client {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        new GUIClient().setVisible(true);
+        new GUIClient2().setVisible(true);
 
     }
     
