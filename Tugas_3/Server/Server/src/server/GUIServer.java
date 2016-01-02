@@ -131,7 +131,7 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
                             if(iter.nama.equals(tmp.nama)){
                                 if(tmp.readyToFire && tmp.shoot){
                                     iter.shoot=true;
-                                    shoot(iter);
+//                                    shoot(iter);
                                 }
                                 SendToClient(tmp);
                                 iter.shoot=false;
@@ -179,11 +179,11 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
             person.batas();
             person.signal=2;
         }
-        public void shoot(Person person) throws IOException{
-        person.tembak();
-        person.signal=3;
-//        SendToServer();
-    }
+//        public void shoot(Person person) throws IOException{
+//        person.tembak();
+//        person.signal=3;
+////        SendToServer();
+//    }
         
     }
     

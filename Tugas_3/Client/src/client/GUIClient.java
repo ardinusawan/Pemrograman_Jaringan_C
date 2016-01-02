@@ -108,7 +108,7 @@ public class GUIClient extends javax.swing.JFrame {
                         for(Person iter:player){
                             if(iter.nama.equals(tmp.nama)){
                                 if(tmp.readyToFire){
-                                    iter.tembak();
+//                                    iter.tembak();
                                     shoot(iter);
                                 }
                             }

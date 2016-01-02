@@ -104,10 +104,12 @@ public class GUIClient2 extends javax.swing.JFrame {
                         for(Person iter:player){
                             if(iter.nama.equals(tmp.nama)){
                                 if(tmp.readyToFire){
-                                    iter.tembak();
-                                    shoot(iter);
-                                }
-                            }
+//                                    iter.tembak();
+//                                    shoot(iter);
+                                    game1.Tembak(tmp.nama, tmp.x, tmp.y,tmp.gambarOrang,tmp.signal);
+//                                      System.out.println("penembak : " + tmp.nama + " pos X : " + tmp.x + " pos Y : " + tmp.y + " menghadap ke : " + me.gambarOrang);
+                                } 
+                            }game1.repaint();
                         }
                     }
                     else if(tmp.signal==4){     //disconnect
@@ -156,6 +158,13 @@ public class GUIClient2 extends javax.swing.JFrame {
         ous.flush();
         ous.reset();
     }
+    public void SendToServerDie(Person die) throws IOException{
+        //semua pengiriman data nanti lewat sini
+        //if(this.ous==null) System.out.println("Hey");
+        ous.writeObject(die);
+        ous.flush();
+        ous.reset();
+    }
     public void writeUsers(){ //edited
         onlineUsersArea.setText("");
         for (Person iter:player){
@@ -168,6 +177,28 @@ public class GUIClient2 extends javax.swing.JFrame {
     public void Disconnect() throws IOException {
             me.signal=4;
             SendToServer();
+    }
+    
+    public void Die(Person die) throws IOException{
+//        for(Person iter :player){
+//            if(iter.nama.equals(nama)){
+                die.signal=4;
+//                
+//            player.remove(iter.nama.equals(nama));    //apus 
+//                                System.out.println(nama + " has disconnected.");
+//                                chatTextArea.append(nama + " has disconnected.\n");
+//                                writeUsers();//update list online
+//                                if(nama.equals(me.nama))
+//                                {
+//                                    Disconnected();
+//                                    chatTextArea.append("You have disconnected.\n");
+//                                    System.out.println("You have disconnected");
+//                                }
+            SendToServerDie(die);
+////                                SendToServer();
+////                                break;
+//            }
+//        }
     }
     
     public void Disconnected() throws IOException{

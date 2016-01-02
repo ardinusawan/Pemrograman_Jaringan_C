@@ -24,10 +24,10 @@ public class Person implements Serializable{
     public int x=0;
     public int y=0;
     public int velX, velY;
-    private int batas_atas = 0;
-    private int batas_bawah = 244;
-    private int batas_kiri = 0;
-    private int batas_kanan = 449;
+    public int batas_atas = 0;
+    public int batas_bawah = 244;
+    public int batas_kiri = 0;
+    public int batas_kanan = 449;
     public String gambarOrang;
     public boolean readyToFire = true, shoot = false;
     Bullet B;
@@ -82,6 +82,7 @@ public void kiri(){
         velY = 10;
         gambarOrang="dudemini-down.png";
     }
+    /*
     public void tembak() throws IOException{
 //       B.sendBullet();
         if(shoot=true){
@@ -95,5 +96,5 @@ public void kiri(){
 
         }
     
-    
+ */   
 }

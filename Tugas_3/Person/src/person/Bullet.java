@@ -22,6 +22,7 @@ import javax.swing.JPanel;
  *
  * @author ardi nusawan
  */
+/*
 public class Bullet extends JPanel{
     Person person;
     String gambarBullet="bulletmini.png";
@@ -48,3 +49,4 @@ public class Bullet extends JPanel{
     }
 
 }
+*/
