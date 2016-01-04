@@ -47,11 +47,17 @@ public class Person implements Serializable{
     }    
     
     private static String getRandomAvatar() {
-            int a = getRandomNumberInRange(0,1);
+            int a = getRandomNumberInRange(0,4);
             if (a == 0)
                 return "dudemini";
-            else
+            else if (a == 1)
                 return "dudeorange";
+            else if (a == 2)
+                return "dudegreen";
+            else if (a == 3)
+                return "dudered";
+            else
+                return "dudeminia";
     }    
     
 public Person(String input){
