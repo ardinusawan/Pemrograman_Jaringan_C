@@ -71,19 +71,19 @@ public Person(String input){
 public void batas(){
     if(x>=batas_kanan){
         //x = batas_kanan;
-        x = batas_kiri;
+        x = batas_kiri+10;
     }
     else if(x<=batas_kiri){
         //x = batas_kiri;
-        x = batas_kanan;
+        x = batas_kanan-10;
     }
     if(y<=batas_atas){
         //y = batas_atas;
-        y = batas_bawah;
+        y = batas_bawah-10;
     }
     else if(y>=batas_bawah){
         //y = batas_bawah;
-        y = batas_atas;
+        y = batas_atas+10;
     }
     
 }
