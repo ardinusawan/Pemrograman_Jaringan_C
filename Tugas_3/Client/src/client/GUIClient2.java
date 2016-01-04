@@ -23,7 +23,7 @@ import person.Person;
  * @author ardi nusawan
  */
 public class GUIClient2 extends javax.swing.JFrame {
-    String username, serverIP = "localhost";
+    String username, serverIP = "10.151.43.13";
     int Port = 5000;
     Socket sock;
     ObjectInputStream ois;
