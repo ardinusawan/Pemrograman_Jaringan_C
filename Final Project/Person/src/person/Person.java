@@ -12,6 +12,7 @@ package person;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Random;
 
 /**
  *
@@ -21,8 +22,8 @@ public class Person implements Serializable{
     public String nama;
     public String chat;
     public int signal=0;
-    public int x=0;
-    public int y=0;
+    public int x=getRandomNumberInRange(0, 1)*490;
+    public int y=getRandomNumberInRange(0, 1)*250;
     public int velX, velY;
     public int batas_atas = 0;
     public int batas_bawah = 250;
@@ -33,6 +34,16 @@ public class Person implements Serializable{
     
     public int score;
 //    Bullet B;
+    
+    private static int getRandomNumberInRange(int min, int max) {
+
+            if (min >= max) {
+                    throw new IllegalArgumentException("max must be greater than min");
+            }
+
+            Random r = new Random();
+            return r.nextInt((max - min) + 1) + min;
+    }    
     
 public Person(String input){
     this.nama=input;
