@@ -40,7 +40,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
     GUIClient2 gui;
     private Timer t = new Timer(7, this);
     public boolean loggedIn=false;
-    String gambarOrang="pleaseLogin.jpg";
+    String gambarOrang="pleaseLogin.png";
     
     //Scanner s=new Scanner(System.in);
     

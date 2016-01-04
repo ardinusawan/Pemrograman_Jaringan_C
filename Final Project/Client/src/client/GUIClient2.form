@@ -106,7 +106,7 @@
   <SubComponents>
     <Component class="javax.swing.JButton" name="connectButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Connect"/>
+        <Property name="text" type="java.lang.String" value="Join"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="connectButtonActionPerformed"/>
@@ -114,7 +114,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="disconnectButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Disconnect"/>
+        <Property name="text" type="java.lang.String" value="Leave"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="disconnectButtonActionPerformed"/>

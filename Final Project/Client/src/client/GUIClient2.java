@@ -57,7 +57,7 @@ public class GUIClient2 extends javax.swing.JFrame {
                         //if(!(tmp.nama.equals(me.nama))){
                             //moved(tmp);
                             //System.out.println(tmp.x+" "+tmp.y);
-                            chatTextArea.append(tmp.nama+" has Connected\n");
+                            chatTextArea.append(tmp.nama+" has joined the room.\n");
                             player.add(tmp);
                             writeUsers();//update list online
                             if(tmp.nama.equals(me.nama)){
@@ -119,20 +119,20 @@ public class GUIClient2 extends javax.swing.JFrame {
                         for(Person iter :player){
                             if(iter.nama.equals(tmp.nama)){
                                 player.remove(iter);    //apus 
-                                System.out.println(iter.nama + " has disconnected.");
-                                chatTextArea.append(iter.nama + " has disconnected.\n");
+                                System.out.println(iter.nama + " has been disconnected.");
+                                chatTextArea.append(iter.nama + " has been disconnected.\n");
                                 writeUsers();//update list online
                                 if(iter.nama.equals(me.nama))
                                 {
                                     Disconnected();
-                                    chatTextArea.append("You have disconnected.\n");
-                                    System.out.println("You have disconnected");
+                                    chatTextArea.append("You have been disconnected.\n");
+                                    System.out.println("You have been disconnected");
                                 }
                                 break;
                             }
                         }  
                     }
-                    else if(tmp.signal==5){
+                    else if(tmp.signal==5){             //skor
                         
                         for(Person iter: player){
                             if(iter.nama.equals(tmp.nama)){
@@ -141,8 +141,25 @@ public class GUIClient2 extends javax.swing.JFrame {
                             }
                         }
                     }
+//                    else if(tmp.signal==6){           //leave room
+//                        for(Person iter :player){
+//                            if(iter.nama.equals(tmp.nama)){
+//                                player.remove(iter);    //apus 
+//                                System.out.println(iter.nama + " has left the room.");
+//                                chatTextArea.append(iter.nama + " has left the room.\n");
+//                                writeUsers();//update list online
+//                                if(iter.nama.equals(me.nama))
+//                                {
+//                                    Disconnected();
+//                                    chatTextArea.append("You have left the room.\n");
+//                                    System.out.println("You have left the room");
+//                                }
+//                                break;
+//                            }
+//                        }  
+//                    }
                     else if(tmp.signal==-1){
-                        chatTextArea.append("Disconnected from server\n");
+                        chatTextArea.append("Disconnected from server.\n");
                         me.signal=-1;
                         SendToServer();
                     }
@@ -192,14 +209,22 @@ public class GUIClient2 extends javax.swing.JFrame {
             SendToServer();
     }
     
+    public void DisconnectDeliberately() throws IOException {
+            me.signal=6;
+            SendToServer();
+    }
+    
     public void Die(Person die) throws IOException{
 //        for(Person iter :player){
 //            if(iter.nama.equals(nama)){
                 System.out.println(die.nama+" >< "+ me.nama);
                 if(die.nama.equals(me.nama)){
                     me.health--;
-                    if (me.health == 0)
+                    if (me.health == 0){
+                        System.out.println(me.nama+" died.");
+                        chatTextArea.append(me.nama+" died.\n");
                         Disconnect();
+                    }
                 }
 //                
 //            player.remove(iter.nama.equals(nama));    //apus 
@@ -267,14 +292,14 @@ public class GUIClient2 extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(667, 473));
         setSize(new java.awt.Dimension(667, 473));
 
-        connectButton.setText("Connect");
+        connectButton.setText("Join");
         connectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 connectButtonActionPerformed(evt);
             }
         });
 
-        disconnectButton.setText("Disconnect");
+        disconnectButton.setText("Leave");
         disconnectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 disconnectButtonActionPerformed(evt);
@@ -442,7 +467,7 @@ public class GUIClient2 extends javax.swing.JFrame {
                 isConnected = true;
                 
             } catch (IOException ex) {
-                chatTextArea.append("Cannot Connect! Try Again. \n");
+                chatTextArea.append("Cannot connect! Try again. \n");
                 usernameField.setEditable(true);
                 IPAddressField.setEditable(true);
                 portField.setEditable(true);
@@ -452,7 +477,7 @@ public class GUIClient2 extends javax.swing.JFrame {
             
         }
         else if(isConnected == true){
-            chatTextArea.append("Server Offline\n");
+            chatTextArea.append("Server offline\n");
         }
     }//GEN-LAST:event_connectButtonActionPerformed
 
@@ -461,6 +486,7 @@ public class GUIClient2 extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             Disconnect();
+            //DisconnectDeliberately();
         } catch (IOException ex) {
             Logger.getLogger(GUIClient2.class.getName()).log(Level.SEVERE, null, ex);
         }
