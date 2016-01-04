@@ -55,13 +55,15 @@ public class GUIClient2 extends javax.swing.JFrame {
                     tmp=(Person) temp;
                     if(tmp.signal==0){          //connect
                         //if(!(tmp.nama.equals(me.nama))){
-                            moved(tmp);
+                            //moved(tmp);
+                            //System.out.println(tmp.x+" "+tmp.y);
                             chatTextArea.append(tmp.nama+" has Connected\n");
                             player.add(tmp);
                             writeUsers();//update list online
                             if(tmp.nama.equals(me.nama)){
                                 game1.gameLogin(gui);
                             }
+                            repaint();
                     }
                     else if(tmp.signal==1){     //chat
                         chatTextArea.append(tmp.nama+": "+tmp.chat+"\n");
@@ -182,7 +184,10 @@ public class GUIClient2 extends javax.swing.JFrame {
     public void Die(Person die) throws IOException{
 //        for(Person iter :player){
 //            if(iter.nama.equals(nama)){
-                die.signal=4;
+                System.out.println(die.nama+" >< "+ me.nama);
+                if(die.nama.equals(me.nama)){
+                    Disconnect();
+                }
 //                
 //            player.remove(iter.nama.equals(nama));    //apus 
 //                                System.out.println(nama + " has disconnected.");
@@ -194,7 +199,9 @@ public class GUIClient2 extends javax.swing.JFrame {
 //                                    chatTextArea.append("You have disconnected.\n");
 //                                    System.out.println("You have disconnected");
 //                                }
-            SendToServerDie(die);
+            /* commented by Lord
+                SendToServerDie(die);
+            */
 ////                                SendToServer();
 ////                                break;
 //            }
@@ -202,6 +209,8 @@ public class GUIClient2 extends javax.swing.JFrame {
     }
     
     public void Disconnected() throws IOException{
+        player.clear();
+        game1.signal_shoot=0;
         chatTextArea.append("Disconnected.\n");
         sock.close();
         isConnected = false;
@@ -463,6 +472,7 @@ public class GUIClient2 extends javax.swing.JFrame {
         if(isMoved){
             try {
                 moved(me);
+                isMoved=false;
             } catch (IOException ex) {
                 Logger.getLogger(GUIClient2.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -484,7 +494,7 @@ public class GUIClient2 extends javax.swing.JFrame {
                 Logger.getLogger(GUIClient2.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        isMoved=false;
+        
         isShoot=false;
     }//GEN-LAST:event_inputTextAreaKeyPressed
 

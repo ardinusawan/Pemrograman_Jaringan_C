@@ -108,15 +108,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
                         if(/*(posX_shoot!=iter.x && posY_shoot!=iter.y ) &&*/ posX_shoot<=person.batas_kanan+50){
                             posX_shoot++;
                         }
-                        /*else*/ if(posX_shoot==iter.x && posY_shoot==iter.y && !iter.nama.contentEquals(penembak)) {
-                            
-                            System.out.println(iter.nama + " kena!");
-                            try {
-                                gui.Die(iter);
-                            } catch (IOException ex) {
-                                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }repaint();
+                        /*else*/ 
                     }
                     else if(menghadap.equalsIgnoreCase("dudemini-left.png")){
                         ImageIcon iii = new ImageIcon(this.getClass().getResource("bulletmini_left.png"));
@@ -127,15 +119,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
                         
                         if(/*(posX_shoot!=iter.x && posY_shoot!=iter.y ) &&*/ posX_shoot>=person.batas_kiri-50){
                             posX_shoot--;
-                        }/*else */if(posX_shoot==iter.x && posY_shoot==iter.y && !iter.nama.contentEquals(penembak)) {
-                            
-                            System.out.println(iter.nama + " kena!");
-                            try {
-                                gui.Die(iter);
-                            } catch (IOException ex) {
-                                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }repaint();
+                        }/*else */
                         
                     }
 
@@ -147,15 +131,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
                         g2dd.drawImage(bullet,posX_shoot,posY_shoot, this);
                         if(/*(posX_shoot!=iter.x && posY_shoot!=iter.y ) &&*/posY_shoot>=person.batas_atas-50){
                             posY_shoot--;
-                        }/*else*/ if(posX_shoot==iter.x && posY_shoot==iter.y && !iter.nama.contentEquals(penembak)) {
-                            
-                            System.out.println(iter.nama + " kena!");
-                            try {
-                                gui.Die(iter);
-                            } catch (IOException ex) {
-                                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }repaint();
+                        }/*else*/
                         
                     }
                     
@@ -167,19 +143,21 @@ public class Game extends JPanel implements KeyListener, ActionListener{
                         g2dd.drawImage(bullet,posX_shoot,posY_shoot, this);
                         if(/*(posX_shoot!=iter.x && posY_shoot!=iter.y ) &&*/posY_shoot<=person.batas_bawah+80){
                             posY_shoot++;
-                        }/*else*/ if(posX_shoot==iter.x && posY_shoot==iter.y && !iter.nama.contentEquals(penembak)) {
+                        }/*else*/
+                    }
+                    if(posX_shoot==gui.me.x && posY_shoot==gui.me.y) {
                             
-                            System.out.println(iter.nama + " kena!");
+                            System.out.println(gui.me.nama + " kena!");
                             try {
-                                gui.Die(iter);
+                                gui.Die(gui.me);
                             } catch (IOException ex) {
                                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }repaint();
-                    }
                 }
 //                    signal_shoot = 0;
             }
+            
             
         }
     }

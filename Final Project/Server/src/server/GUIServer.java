@@ -56,7 +56,7 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
         
     }
     
-    public void send(Person message) throws IOException{
+    public synchronized void send(Person message) throws IOException{
         ous.writeObject(message);
         ous.flush();
         ous.reset();
@@ -75,11 +75,13 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
                     if(tmp.signal==0){          //connect
                         for(Person iter:player)
                         {   
+                            System.out.println(iter.nama+":"+iter.x+" "+iter.y);
                             int tmpInt=iter.signal;
                             iter.signal=0;
                             send(iter);
                             iter.signal=tmpInt;
                         }
+                        System.out.println("");
                         player.add(tmp);
                         SendToClient(tmp); 
                         
@@ -112,6 +114,7 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
                                     moved(iter);
                                 }
                                 iter.gambarOrang=tmp.gambarOrang;
+                                outputPane.append(iter.x+" "+iter.y+"\n");
                                 SendToClient(tmp);
                             }
                         }
@@ -148,8 +151,9 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
                                 sock.close();
                                 player.remove(iter);    //apus
                                 
-                                outputPane.append(iter.nama + "has disconnected.\n");
+                                outputPane.append(iter.nama + "has disconnectoutped.\n");
                                 server.Disconnect(this);
+                                break;
                             }
                         }
                     }
