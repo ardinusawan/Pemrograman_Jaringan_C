@@ -30,7 +30,7 @@ public class Person implements Serializable{
     public int batas_kanan = 449;
     public String gambarOrang;
     public boolean readyToFire = true, shoot = false;
-    Bullet B;
+//    Bullet B;
     
 public Person(String input){
     this.nama=input;
