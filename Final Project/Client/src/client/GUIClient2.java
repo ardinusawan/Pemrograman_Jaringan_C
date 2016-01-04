@@ -197,7 +197,9 @@ public class GUIClient2 extends javax.swing.JFrame {
 //            if(iter.nama.equals(nama)){
                 System.out.println(die.nama+" >< "+ me.nama);
                 if(die.nama.equals(me.nama)){
-                    Disconnect();
+                    me.health--;
+                    if (me.health == 0)
+                        Disconnect();
                 }
 //                
 //            player.remove(iter.nama.equals(nama));    //apus 

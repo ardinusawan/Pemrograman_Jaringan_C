@@ -32,6 +32,7 @@ public class Person implements Serializable{
     public String randomOrang = getRandomAvatar();
     public String gambarOrang;
     public boolean readyToFire = true, shoot = false;
+    public int health = 3;
     
     public int score;
 //    Bullet B;
