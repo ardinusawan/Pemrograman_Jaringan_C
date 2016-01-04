@@ -157,6 +157,15 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
                             }
                         }
                     }
+                    else if(tmp.signal==5){
+                        for(Person iter :player){
+                            if(iter.nama.equals(tmp.nama)){
+                                iter.score+=10;
+                                iter.signal=5;
+                                SendToClient(iter);
+                            }
+                        }
+                    }
                     else if(tmp.signal==-1){
                         for(Person iter :player){
                             if(iter.nama.equals(tmp.nama)){

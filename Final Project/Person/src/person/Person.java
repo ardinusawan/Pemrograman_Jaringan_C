@@ -30,6 +30,8 @@ public class Person implements Serializable{
     public int batas_kanan = 450;
     public String gambarOrang;
     public boolean readyToFire = true, shoot = false;
+    
+    public int score;
 //    Bullet B;
     
 public Person(String input){
@@ -38,6 +40,8 @@ public Person(String input){
 //    B = new Bullet();
 }
    
+
+
 public void batas(){
     if(x>=batas_kanan){
         x = batas_kanan;

@@ -69,12 +69,16 @@ public class Game extends JPanel implements KeyListener, ActionListener{
         posX_shoot = posX;
         posY_shoot = posY;
         this.menghadap = menghadap;
+        
+        
 //        this.repaint();
 //       ImageIcon iii = new ImageIcon(this.getClass().getResource("bulletmini.png"));
 //       Image bullet = iii.getImage();
 //       Graphics2D g2d =(Graphics2D)g;
 //       g2d.drawImage(bullet,posX,posY, this);
     }
+    
+   
 
     @Override
     public void paintComponent(Graphics g){
@@ -92,7 +96,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
                 ImageIcon ii = new ImageIcon(this.getClass().getResource(iter.gambarOrang));
                 Image dude = ii.getImage();
                 Graphics2D g2d =(Graphics2D)g;
-                g2d.drawString(iter.nama + " " + iter.x + " " + iter.y, iter.x, iter.y);
+                g2d.drawString(iter.nama, iter.x, iter.y);
 //                g2d.drawString(iter.x + " " + iter.y, iter.x +1, iter.y);
                 g2d.drawImage(dude,iter.x,iter.y, this);
 //                iter.signal = signal_shoot;
@@ -103,8 +107,8 @@ public class Game extends JPanel implements KeyListener, ActionListener{
                         ImageIcon iii = new ImageIcon(this.getClass().getResource("bulletmini_right.png"));
                         Image bullet = iii.getImage();
                         Graphics2D g2dd =(Graphics2D)g;
-                        //g2d.drawString(posX_shoot + " " + posY_shoot, posX_shoot, posY_shoot);
-                        g2dd.drawImage(bullet,posX_shoot,posY_shoot, this);
+                        //g2d.drawString(penembak + " " + posX_shoot + " " + posY_shoot, posX_shoot, posY_shoot);
+                        g2dd.drawImage(bullet,posX_shoot+1,posY_shoot, this);
                         if(/*(posX_shoot!=iter.x && posY_shoot!=iter.y ) &&*/ posX_shoot<=person.batas_kanan+50){
                             posX_shoot++;
                         }
@@ -114,8 +118,8 @@ public class Game extends JPanel implements KeyListener, ActionListener{
                         ImageIcon iii = new ImageIcon(this.getClass().getResource("bulletmini_left.png"));
                         Image bullet = iii.getImage();
                         Graphics2D g2dd =(Graphics2D)g;
-                        //g2d.drawString(posX_shoot + " " + posY_shoot, posX_shoot, posY_shoot);
-                        g2dd.drawImage(bullet,posX_shoot,posY_shoot, this);
+                        //g2d.drawString(penembak + " " + posX_shoot + " " + posY_shoot, posX_shoot, posY_shoot);
+                        g2dd.drawImage(bullet,posX_shoot-1,posY_shoot, this);
                         
                         if(/*(posX_shoot!=iter.x && posY_shoot!=iter.y ) &&*/ posX_shoot>=person.batas_kiri-50){
                             posX_shoot--;
@@ -127,8 +131,8 @@ public class Game extends JPanel implements KeyListener, ActionListener{
                         ImageIcon iii = new ImageIcon(this.getClass().getResource("bulletmini_up.png"));
                         Image bullet = iii.getImage();
                         Graphics2D g2dd =(Graphics2D)g;
-                        //g2d.drawString(posX_shoot + " " + posY_shoot, posX_shoot, posY_shoot);
-                        g2dd.drawImage(bullet,posX_shoot,posY_shoot, this);
+                        //g2d.drawString(penembak + " " + posX_shoot + " " + posY_shoot, posX_shoot, posY_shoot);
+                        g2dd.drawImage(bullet,posX_shoot,posY_shoot-1, this);
                         if(/*(posX_shoot!=iter.x && posY_shoot!=iter.y ) &&*/posY_shoot>=person.batas_atas-50){
                             posY_shoot--;
                         }/*else*/
@@ -139,15 +143,16 @@ public class Game extends JPanel implements KeyListener, ActionListener{
                         ImageIcon iii = new ImageIcon(this.getClass().getResource("bulletmini_down.png"));
                         Image bullet = iii.getImage();
                         Graphics2D g2dd =(Graphics2D)g;
-                        //g2d.drawString(posX_shoot + " " + posY_shoot, posX_shoot, posY_shoot);
-                        g2dd.drawImage(bullet,posX_shoot,posY_shoot, this);
+                        //g2d.drawString(penembak + " " + posX_shoot + " " + posY_shoot, posX_shoot, posY_shoot);
+                        g2dd.drawImage(bullet,posX_shoot,posY_shoot+1, this);
                         if(/*(posX_shoot!=iter.x && posY_shoot!=iter.y ) &&*/posY_shoot<=person.batas_bawah+80){
                             posY_shoot++;
                         }/*else*/
                     }
                     if(posX_shoot==gui.me.x && posY_shoot==gui.me.y) {
+                            System.out.println(penembak + " menembak " + gui.me.nama + " !!!!!!");
+                            gui.tambahScore(penembak);
                             
-                            System.out.println(gui.me.nama + " kena!");
                             try {
                                 gui.Die(gui.me);
                             } catch (IOException ex) {

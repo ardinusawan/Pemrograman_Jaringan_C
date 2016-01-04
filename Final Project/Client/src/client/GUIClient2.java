@@ -23,7 +23,7 @@ import person.Person;
  * @author ardi nusawan
  */
 public class GUIClient2 extends javax.swing.JFrame {
-    String username, serverIP = "10.151.43.13";
+    String username, serverIP = "localhost";
     int Port = 5000;
     Socket sock;
     ObjectInputStream ois;
@@ -63,6 +63,7 @@ public class GUIClient2 extends javax.swing.JFrame {
                             if(tmp.nama.equals(me.nama)){
                                 game1.gameLogin(gui);
                             }
+                            
                             repaint();
                     }
                     else if(tmp.signal==1){     //chat
@@ -131,6 +132,15 @@ public class GUIClient2 extends javax.swing.JFrame {
                             }
                         }  
                     }
+                    else if(tmp.signal==5){
+                        
+                        for(Person iter: player){
+                            if(iter.nama.equals(tmp.nama)){
+                                iter.score=tmp.score;
+                                System.out.println(iter.nama + " BERHASIL MENDAPATKAN SKOR: " + iter.score);
+                            }
+                        }
+                    }
                     else if(tmp.signal==-1){
                         chatTextArea.append("Disconnected from server\n");
                         me.signal=-1;
@@ -160,7 +170,7 @@ public class GUIClient2 extends javax.swing.JFrame {
         ous.flush();
         ous.reset();
     }
-    public void SendToServerDie(Person die) throws IOException{
+    public void SendToServerKill(Person die) throws IOException{
         //semua pengiriman data nanti lewat sini
         //if(this.ous==null) System.out.println("Hey");
         ous.writeObject(die);
@@ -170,7 +180,8 @@ public class GUIClient2 extends javax.swing.JFrame {
     public void writeUsers(){ //edited
         onlineUsersArea.setText("");
         for (Person iter:player){
-            onlineUsersArea.append(iter.nama + "\n");
+            onlineUsersArea.append(iter.nama + " (" + iter.score + ")\n");
+            repaint();
         }
     }
     
@@ -537,6 +548,19 @@ public class GUIClient2 extends javax.swing.JFrame {
 //        shootPerson.tembak();
         shootPerson.signal=3;
 //        SendToServer();
+    }
+    
+     public void tambahScore(String nama){
+        for(Person iter:player){
+            if(iter.nama.equals(nama)){
+                try {
+                    iter.signal=5;
+                    SendToServerKill(iter);
+                } catch (IOException ex) {
+                    Logger.getLogger(GUIClient2.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
     }
     
     private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
