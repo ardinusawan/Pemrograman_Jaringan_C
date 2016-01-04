@@ -81,6 +81,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
     }
     
     public void kiri(){
+        //Seharusnya perintahnya adalah mengirim ke server bahwa dia bergerak
         person.velX = -10;
         person.velY = 0;
         gambarOrang="dudemini-left.png";

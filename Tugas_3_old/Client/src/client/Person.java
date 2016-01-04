@@ -36,6 +36,7 @@ public void batas(){
 }
 
 public void movement(){
+    //set x y awal pojok kiri atas
     System.out.println(this.velX+" "+this.velY);
        x = x + velX;
        y = y + velY;

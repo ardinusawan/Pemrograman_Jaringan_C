@@ -21,12 +21,12 @@ import java.util.logging.Logger;
  */
 public class GUIClient extends javax.swing.JFrame {
 
-    String username, serverIP = "10.151.40.130";
+    String username, serverIP = "127.0.0.1";
     int Port = 5000;
     Socket sock;
     BufferedReader reader;
     PrintWriter writer;
-    ArrayList<String> userList = new ArrayList();
+    ArrayList<String> userList = new ArrayList(); 
     Boolean isConnected = false;
     
     /**
@@ -40,7 +40,7 @@ public class GUIClient extends javax.swing.JFrame {
     @Override
     public void run(){
         String[] data;
-        String stream, done = "Done",connect = "Connect", disconnect = "Disconnect", chat = "Chat";
+        String stream, done = "Done",connect = "Connect", disconnect = "Disconnect", chat = "Chat", setpos="Set";
         try {
             while((stream = reader.readLine())!=null){
                 data = stream.split(":");
@@ -48,7 +48,7 @@ public class GUIClient extends javax.swing.JFrame {
                     chatTextArea.append(data[0] + ":" + data[1] + "\n");
                     chatTextArea.setCaretPosition(chatTextArea.getDocument().getLength());
                 }
-                else if (data[2].equals(connect)){
+                else if (data[2].equals(connect)){ 
                     chatTextArea.removeAll();
                     userAdd(data[0]);
                 }
@@ -60,7 +60,7 @@ public class GUIClient extends javax.swing.JFrame {
                     writeUsers();
                     userList.clear();
                 }
-               
+               //men create dude pada
             }
                 } catch (IOException ex) {
             Logger.getLogger(GUIClient.class.getName()).log(Level.SEVERE, null, ex);
@@ -73,7 +73,7 @@ public class GUIClient extends javax.swing.JFrame {
         IncomingReader.start();
     }
     
-    public void userAdd(String data){
+    public void userAdd(String data){ 
         userList.add(data);
     }
     
@@ -316,7 +316,11 @@ public class GUIClient extends javax.swing.JFrame {
             inputTextArea.requestFocus();
         }
     }                                          
-
+    private void sendPosition(){
+        writer.println(username + ":" + game1.person.x + ":" + game1.person.y + "Posisi");
+        writer.flush();
+ 
+    }
     private void inputTextAreaKeyPressed(java.awt.event.KeyEvent evt) {                                         
         // TODO add your handling code here:
         int c = evt.getKeyCode();
@@ -344,20 +348,24 @@ public class GUIClient extends javax.swing.JFrame {
         if(isConnected){
         if(c==KeyEvent.VK_LEFT){
             game1.kiri();
+            sendPosition();
             //gambar();
         }
         else if(c==KeyEvent.VK_RIGHT){
             game1.kanan();
+            sendPosition();
             //gambar();
             
         }
         else if(c==KeyEvent.VK_UP){
             game1.atas();
+            sendPosition();
             //gambar();
            
         }
         else if(c==KeyEvent.VK_DOWN){
             game1.bawah();
+            sendPosition();
             //gambar();
             
         }

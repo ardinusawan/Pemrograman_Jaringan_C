@@ -22,7 +22,15 @@ import java.util.logging.Logger;
  */
 public class GUIServer extends javax.swing.JFrame {
     ArrayList clientOutputStreams;
-    ArrayList<String> onlineUsers;
+    ArrayList<String> onlineUsers; //Dibikin array 2 dimensi
+    // Username PosX PosY Score
+    // player1  1    3    20
+    // player2  2    4    50
+    // .        .    .    .
+    
+    // kalau ga bisa biarin aja satu dimensi string tapi isi arraynya gabungan semua data
+    //ex: "username:1:2:100"
+    // nanti dipisahin ketika mau ngambil datanya
     
     public class ClientHandler implements Runnable{
     BufferedReader reader;
@@ -58,7 +66,11 @@ public class GUIServer extends javax.swing.JFrame {
                     }
                     if (data[2].equals(connect)){
                         tellEveryone((data[0] + ":" + data[1] + ":" + chat));
-                        userAdd(data[0]);
+                        // tellEveryone
+                        
+                        userAdd(data[0]); // <-ini kan cuma ngeset username doang.
+                        // 
+                        // userAdd(data[0],x,y,0);    <- x,y posisi awal user baru dan score mula2 0
                     }
                     else if (data[2].equals(disconnect)){
                         tellEveryone((data[0] + ":has disconnected." + ":" + chat));
@@ -224,16 +236,21 @@ public class GUIServer extends javax.swing.JFrame {
         }
     }
     
-    public void userAdd (String data){
-        String message, add = ": :Connect", done = "Server: :Done", name = data;
+    public void userAdd (String data){ // userAdd(String data, int x, int y, int score){
+        String message, add = ": :Connect", done = "Server: :Done", name = data; // add=":Connect:"
+        // name=data + ":" + x + ":" + y + ":" + score;
         outputPane.append("Before " + name + " added. \n");
-        onlineUsers.add(name);
+        onlineUsers.add(name); // isi name adalah semua data username posisi dan score
         outputPane.append("After " + name + " added. \n");
         String[] tempList = new String[(onlineUsers.size())];
         onlineUsers.toArray(tempList);
             
             for(String token:tempList){
-                message = (token + add);
+                // isi token kan jadinya gabungan data
+                // dipisain dulu dengan ":"
+                // data = token.split(":")  -->  "data[0]:data[1]:data[2]:data[3]" = "username:x:y:score"
+                message = (token + add); //message = (data[0] + ":" + score + add + x + ":" + y)
+                // ex pesan mengirim:  "faiz: :Connect:1:1:0"
                  tellEveryone(message);
             }
             tellEveryone(done);
