@@ -4,18 +4,12 @@
  * and open the template in the editor.
  */
 package server;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import person.Person;
@@ -39,21 +33,14 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
     GUIServer server;
     boolean done=false;
     
-
-    
     public ClientHandler(Socket clientSocket,GUIServer server){
         this.server=server;
         try {
             sock = clientSocket;
             this.ous = new ObjectOutputStream(sock.getOutputStream());
             this.ois = new ObjectInputStream(sock.getInputStream());
-            //reader = new BufferedReader(ois);
         } catch (IOException ex) {
-            //Logger.getLogger(GUIServer.class.getName()).log(Level.SEVERE, null, ex);
-            //outputPane.append("Error beginning StreamReader. \n");
         }
-        
-        
     }
     
     public synchronized void send(Person message) throws IOException{
@@ -62,11 +49,8 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
         ous.reset();
     }
     
-    
-    
     @Override
     public void run(){
-       
             /**/
             while(!done){
                 try {
@@ -83,8 +67,7 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
                         }
                         System.out.println("");
                         player.add(tmp);
-                        SendToClient(tmp); 
-                        
+                        SendToClient(tmp);                     
                     } 
                     else if(tmp.signal==1){     //chat
                         SendToClient(tmp);
@@ -118,18 +101,8 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
                                 SendToClient(tmp);
                             }
                         }
-                        /*
-                        for(Person iter:player){
-                           if(iter.nama.equals(tmp.nama)){
-                               player.remove(iter);
-                               player.add(tmp);
-                               SendToClient(tmp);
-                           } 
-                        }
-                        */
                     }
                     else if(tmp.signal==3){
-                        //todo: tembak
                         for(Person iter:player){
                             if(iter.nama.equals(tmp.nama)){
                                 if(tmp.readyToFire && tmp.shoot){
@@ -151,7 +124,7 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
                                 sock.close();
                                 player.remove(iter);    //apus
                                 
-                                outputPane.append(iter.nama + "has disconnectoutped.\n");
+                                outputPane.append(iter.nama + "has disconnected.\n");
                                 server.Disconnect(this);
                                 break;
                             }
@@ -192,14 +165,7 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
             person.batas();
             person.signal=2;
         }
-//        public void shoot(Person person) throws IOException{
-//        person.tembak();
-//        person.signal=3;
-////        SendToServer();
-//    }
-        
     }
-    
     
     /**
      * Creates new form GUIServer
@@ -283,7 +249,6 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
 
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
         // TODO add your handling code here:
-        //SendToClient("Server:is stopping and all users will be disconnected.\n:Chat");
         outputPane.append("Server Stopping\n");
         try {
             /**/
@@ -300,11 +265,7 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
     public synchronized void ServerStop() throws IOException{
         Person Disconnecter = new Person("");
         Disconnecter.signal=-1;
-        SendToClient(Disconnecter);
-        //player=new ArrayList();
-        //client=new ArrayList();
-        
-            
+        SendToClient(Disconnecter);        
     }
     /**
      * @param args the command line arguments
@@ -341,7 +302,6 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
         });
     }
     
-    
     @Override
     public void run(){
         try {
@@ -358,7 +318,6 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
                 outputPane.append("Got a connection. \n");
         }
         } catch (IOException ex) {
-            //Logger.getLogger(GUIServer.class.getName()).log(Level.SEVERE, null, ex);
             outputPane.append("Cannot Start server\n");
         }
     }
@@ -366,7 +325,6 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
     public void Disconnect(ClientHandler toStop){
         client.remove(toStop);
     }
-    
     
     public synchronized void SendToClient(Person message) throws IOException{
         for(ClientHandler iter:client){

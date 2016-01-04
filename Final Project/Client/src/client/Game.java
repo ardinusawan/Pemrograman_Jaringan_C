@@ -5,7 +5,6 @@
  * and open the template in the editor.
  */
 package client;
-
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -16,9 +15,7 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-//import java.util.Scanner;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import person.Person;
@@ -41,8 +38,6 @@ public class Game extends JPanel implements KeyListener, ActionListener{
     private Timer t = new Timer(7, this);
     public boolean loggedIn=false;
     String gambarOrang="pleaseLogin.png";
-    
-    //Scanner s=new Scanner(System.in);
     
     public Game(){
         super.setDoubleBuffered(true);
@@ -69,17 +64,8 @@ public class Game extends JPanel implements KeyListener, ActionListener{
         posX_shoot = posX;
         posY_shoot = posY;
         this.menghadap = menghadap;
-        
-        
-//        this.repaint();
-//       ImageIcon iii = new ImageIcon(this.getClass().getResource("bulletmini.png"));
-//       Image bullet = iii.getImage();
-//       Graphics2D g2d =(Graphics2D)g;
-//       g2d.drawImage(bullet,posX,posY, this);
     }
     
-   
-
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -92,122 +78,79 @@ public class Game extends JPanel implements KeyListener, ActionListener{
         }
         else{
             for(Person iter:gui.player){
-                //System.out.println(iter.x);
                 ImageIcon ii = new ImageIcon(this.getClass().getResource(iter.gambarOrang));
                 Image dude = ii.getImage();
                 Graphics2D g2d =(Graphics2D)g;
                 g2d.drawString(iter.nama, iter.x, iter.y);
-//                g2d.drawString(iter.x + " " + iter.y, iter.x +1, iter.y);
                 g2d.drawImage(dude,iter.x,iter.y, this);
-//                iter.signal = signal_shoot;
-//                System.out.println("Signal = " + iter.signal + " Signalku : " + signal_shoot);
                 
                 if(signal_shoot==3){
                     if(menghadap.endsWith("-right.png")){
                         ImageIcon iii = new ImageIcon(this.getClass().getResource("bulletmini_right.png"));
                         Image bullet = iii.getImage();
                         Graphics2D g2dd =(Graphics2D)g;
-                        //g2d.drawString(penembak + " " + posX_shoot + " " + posY_shoot, posX_shoot, posY_shoot);
                         g2dd.drawImage(bullet,posX_shoot+1,posY_shoot, this);
-                        if(/*(posX_shoot!=iter.x && posY_shoot!=iter.y ) &&*/ posX_shoot<=person.batas_kanan+50){
+                        if(posX_shoot<=person.batas_kanan+50){
                             posX_shoot++;
                         }
-                        /*else*/ 
                     }
                     else if(menghadap.endsWith("-left.png")){
                         ImageIcon iii = new ImageIcon(this.getClass().getResource("bulletmini_left.png"));
                         Image bullet = iii.getImage();
                         Graphics2D g2dd =(Graphics2D)g;
-                        //g2d.drawString(penembak + " " + posX_shoot + " " + posY_shoot, posX_shoot, posY_shoot);
                         g2dd.drawImage(bullet,posX_shoot-1,posY_shoot, this);
                         
-                        if(/*(posX_shoot!=iter.x && posY_shoot!=iter.y ) &&*/ posX_shoot>=person.batas_kiri-50){
+                        if(posX_shoot>=person.batas_kiri-50){
                             posX_shoot--;
-                        }/*else */
-                        
+                        }
                     }
 
                     else if(menghadap.endsWith("-up.png")){
                         ImageIcon iii = new ImageIcon(this.getClass().getResource("bulletmini_up.png"));
                         Image bullet = iii.getImage();
                         Graphics2D g2dd =(Graphics2D)g;
-                        //g2d.drawString(penembak + " " + posX_shoot + " " + posY_shoot, posX_shoot, posY_shoot);
                         g2dd.drawImage(bullet,posX_shoot,posY_shoot-1, this);
-                        if(/*(posX_shoot!=iter.x && posY_shoot!=iter.y ) &&*/posY_shoot>=person.batas_atas-50){
+                        if(posY_shoot>=person.batas_atas-50){
                             posY_shoot--;
-                        }/*else*/
-                        
+                        }
                     }
                     
                     else if(menghadap.endsWith("-down.png")){
                         ImageIcon iii = new ImageIcon(this.getClass().getResource("bulletmini_down.png"));
                         Image bullet = iii.getImage();
                         Graphics2D g2dd =(Graphics2D)g;
-                        //g2d.drawString(penembak + " " + posX_shoot + " " + posY_shoot, posX_shoot, posY_shoot);
                         g2dd.drawImage(bullet,posX_shoot,posY_shoot+1, this);
-                        if(/*(posX_shoot!=iter.x && posY_shoot!=iter.y ) &&*/posY_shoot<=person.batas_bawah+80){
+                        if(posY_shoot<=person.batas_bawah+80){
                             posY_shoot++;
-                        }/*else*/
+                        }
                     }
                     if(posX_shoot==gui.me.x && posY_shoot==gui.me.y) {
-                            System.out.println(penembak + " menembak " + gui.me.nama + " !!!!!!");
-                            gui.tambahScore(penembak);
-                            
-                            try {
-                                gui.Die(gui.me);
-                            } catch (IOException ex) {
-                                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }repaint();
+                        System.out.println(penembak + " menembak " + gui.me.nama + " !!!!!!");
+                        gui.tambahScore(penembak);
+
+                        try {
+                            gui.Die(gui.me);
+                        } catch (IOException ex) {
+                            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } repaint();
                 }
-//                    signal_shoot = 0;
             }
-            
-            
         }
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
-
     @Override
     public void keyPressed(KeyEvent e) {
- 
-//        repaint();
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
     @Override
     public void keyReleased(KeyEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
     @Override
-    public void actionPerformed(ActionEvent e) {
-        
+    public void actionPerformed(ActionEvent e) {    
     }
     
-//    public void gameMovement(){
-//        
-//    }
-    
-    /*public void gambar(){
-        System.out.println(this.velX+" "+velY);
-        this.person.x = person.x + 1;
-        this.person.y = person.y + 1;
-        System.out.println("x: "+ person.x + " " + velX);
-        System.out.println("y: "+ person.y + " " + velY);
-        
-    }*/
-
-//    void gameLogin(GUIClient2 gui) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-
 }
 

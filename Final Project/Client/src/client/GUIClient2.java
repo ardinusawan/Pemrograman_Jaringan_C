@@ -6,15 +6,11 @@
 package client;
 
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import person.Person;
@@ -28,7 +24,6 @@ public class GUIClient2 extends javax.swing.JFrame {
     Socket sock;
     ObjectInputStream ois;
     ObjectOutputStream ous;
-    //ArrayList<String> userList = new ArrayList();//
     Boolean isConnected = false;
     Person me;
     ArrayList<Person> player;
@@ -48,15 +43,11 @@ public class GUIClient2 extends javax.swing.JFrame {
         public void run(){//edited
             Object temp;
             Person tmp;
-            //boolean isMe=false;
             try {
                 while((temp= ois.readObject())!=null){
                     System.out.println("got an input");
                     tmp=(Person) temp;
                     if(tmp.signal==0){          //connect
-                        //if(!(tmp.nama.equals(me.nama))){
-                            //moved(tmp);
-                            //System.out.println(tmp.x+" "+tmp.y);
                             chatTextArea.append(tmp.nama+" has joined the room.\n");
                             player.add(tmp);
                             writeUsers();//update list online
@@ -70,7 +61,6 @@ public class GUIClient2 extends javax.swing.JFrame {
                         chatTextArea.append(tmp.nama+": "+tmp.chat+"\n");
                     }
                     else if(tmp.signal==2){     //move
-                        //chatTextArea.append("someone moved\n");
                         for(Person iter :player){
                             if(iter.nama.equals(tmp.nama)){
                                 if(tmp.velX==-10){
@@ -92,25 +82,13 @@ public class GUIClient2 extends javax.swing.JFrame {
                             }
                             game1.repaint();
                         }
-                        /*
-                        for(Person iter:player){
-                           if(iter.nama.equals(tmp.nama)){
-                               player.remove(iter);
-                               player.add(tmp);
-                               game1.repaint();
-                           } 
-                        }
-                        */
                     }
                     else if(tmp.signal==3){     //attack
                         //todo attack
                         for(Person iter:player){
                             if(iter.nama.equals(tmp.nama)){
                                 if(tmp.readyToFire){
-//                                    iter.tembak();
-//                                    shoot(iter);
                                     game1.Tembak(tmp.nama, tmp.x, tmp.y,tmp.gambarOrang,tmp.signal);
-//                                      System.out.println("penembak : " + tmp.nama + " pos X : " + tmp.x + " pos Y : " + tmp.y + " menghadap ke : " + me.gambarOrang);
                                 } 
                             }game1.repaint();
                         }
@@ -133,7 +111,6 @@ public class GUIClient2 extends javax.swing.JFrame {
                         }  
                     }
                     else if(tmp.signal==5){             //skor
-                        
                         for(Person iter: player){
                             if(iter.nama.equals(tmp.nama)){
                                 iter.score=tmp.score;
@@ -141,31 +118,12 @@ public class GUIClient2 extends javax.swing.JFrame {
                             }
                         }
                     }
-//                    else if(tmp.signal==6){           //leave room
-//                        for(Person iter :player){
-//                            if(iter.nama.equals(tmp.nama)){
-//                                player.remove(iter);    //apus 
-//                                System.out.println(iter.nama + " has left the room.");
-//                                chatTextArea.append(iter.nama + " has left the room.\n");
-//                                writeUsers();//update list online
-//                                if(iter.nama.equals(me.nama))
-//                                {
-//                                    Disconnected();
-//                                    chatTextArea.append("You have left the room.\n");
-//                                    System.out.println("You have left the room");
-//                                }
-//                                break;
-//                            }
-//                        }  
-//                    }
                     else if(tmp.signal==-1){
                         chatTextArea.append("Disconnected from server.\n");
                         me.signal=-1;
                         SendToServer();
                     }
-                    //game1.repaint();
                     chatTextArea.setCaretPosition(chatTextArea.getDocument().getLength());
-                    
                 }
                 
             }catch (IOException ex) {
@@ -182,18 +140,17 @@ public class GUIClient2 extends javax.swing.JFrame {
     }
     public void SendToServer() throws IOException{
         //semua pengiriman data nanti lewat sini
-        //if(this.ous==null) System.out.println("Hey");
         ous.writeObject(me);
         ous.flush();
         ous.reset();
     }
     public void SendToServerKill(Person die) throws IOException{
         //semua pengiriman data nanti lewat sini
-        //if(this.ous==null) System.out.println("Hey");
         ous.writeObject(die);
         ous.flush();
         ous.reset();
     }
+    
     public void writeUsers(){ //edited
         onlineUsersArea.setText("");
         for (Person iter:player){
@@ -201,8 +158,6 @@ public class GUIClient2 extends javax.swing.JFrame {
             repaint();
         }
     }
-    
-   
     
     public void Disconnect() throws IOException {
             me.signal=4;
@@ -214,39 +169,19 @@ public class GUIClient2 extends javax.swing.JFrame {
             SendToServer();
     }
     
-    public void Die(Person die) throws IOException{
-//        for(Person iter :player){
-//            if(iter.nama.equals(nama)){
-                System.out.println(die.nama+" >< "+ me.nama);
-                if(die.nama.equals(me.nama)){
-                    me.health--;
-                    if (me.health == 0){
-                        System.out.println(me.nama+" died.");
-                        chatTextArea.append(me.nama+" died.\n");
-                        Disconnect();
-                    }
-                }
-//                
-//            player.remove(iter.nama.equals(nama));    //apus 
-//                                System.out.println(nama + " has disconnected.");
-//                                chatTextArea.append(nama + " has disconnected.\n");
-//                                writeUsers();//update list online
-//                                if(nama.equals(me.nama))
-//                                {
-//                                    Disconnected();
-//                                    chatTextArea.append("You have disconnected.\n");
-//                                    System.out.println("You have disconnected");
-//                                }
-            /* commented by Lord
-                SendToServerDie(die);
-            */
-////                                SendToServer();
-////                                break;
-//            }
-//        }
+    public void Die(Person die) throws IOException {
+        System.out.println(die.nama+" >< "+ me.nama);
+        if(die.nama.equals(me.nama)){
+            me.health--;
+            if (me.health == 0){
+                System.out.println(me.nama+" died.");
+                chatTextArea.append(me.nama+" died.\n");
+                Disconnect();
+            }
+        }
     }
     
-    public void Disconnected() throws IOException{
+    public void Disconnected() throws IOException {
         player.clear();
         game1.signal_shoot=0;
         chatTextArea.append("Disconnected.\n");
@@ -595,7 +530,6 @@ public class GUIClient2 extends javax.swing.JFrame {
             else {
                 /**/
                 me.chat=inputTextArea.getText();
-                //System.out.println(me.chat);
                 me.signal=1;
                 try {
                     SendToServer();
@@ -617,9 +551,7 @@ public class GUIClient2 extends javax.swing.JFrame {
         movingPerson.signal=2;
     }
     public void shoot(Person shootPerson) throws IOException{
-//        shootPerson.tembak();
         shootPerson.signal=3;
-//        SendToServer();
     }
     
      public void tambahScore(String nama){
