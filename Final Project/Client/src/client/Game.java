@@ -103,7 +103,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
 //                System.out.println("Signal = " + iter.signal + " Signalku : " + signal_shoot);
                 
                 if(signal_shoot==3){
-                    if(menghadap.equalsIgnoreCase("dudemini-right.png")){
+                    if(menghadap.endsWith("-right.png")){
                         ImageIcon iii = new ImageIcon(this.getClass().getResource("bulletmini_right.png"));
                         Image bullet = iii.getImage();
                         Graphics2D g2dd =(Graphics2D)g;
@@ -114,7 +114,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
                         }
                         /*else*/ 
                     }
-                    else if(menghadap.equalsIgnoreCase("dudemini-left.png")){
+                    else if(menghadap.endsWith("-left.png")){
                         ImageIcon iii = new ImageIcon(this.getClass().getResource("bulletmini_left.png"));
                         Image bullet = iii.getImage();
                         Graphics2D g2dd =(Graphics2D)g;
@@ -127,7 +127,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
                         
                     }
 
-                    else if(menghadap.equalsIgnoreCase("dudemini-up.png")){
+                    else if(menghadap.endsWith("-up.png")){
                         ImageIcon iii = new ImageIcon(this.getClass().getResource("bulletmini_up.png"));
                         Image bullet = iii.getImage();
                         Graphics2D g2dd =(Graphics2D)g;
@@ -139,7 +139,7 @@ public class Game extends JPanel implements KeyListener, ActionListener{
                         
                     }
                     
-                    else if(menghadap.equalsIgnoreCase("dudemini-down.png")){
+                    else if(menghadap.endsWith("-down.png")){
                         ImageIcon iii = new ImageIcon(this.getClass().getResource("bulletmini_down.png"));
                         Image bullet = iii.getImage();
                         Graphics2D g2dd =(Graphics2D)g;

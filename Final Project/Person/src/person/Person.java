@@ -29,6 +29,7 @@ public class Person implements Serializable{
     public int batas_bawah = 250;
     public int batas_kiri = 0;
     public int batas_kanan = 490;
+    public String randomOrang = getRandomAvatar();
     public String gambarOrang;
     public boolean readyToFire = true, shoot = false;
     
@@ -45,9 +46,17 @@ public class Person implements Serializable{
             return r.nextInt((max - min) + 1) + min;
     }    
     
+    private static String getRandomAvatar() {
+            int a = getRandomNumberInRange(0,1);
+            if (a == 0)
+                return "dudemini";
+            else
+                return "dudeorange";
+    }    
+    
 public Person(String input){
     this.nama=input;
-    gambarOrang="dudemini-left.png";
+    gambarOrang=randomOrang+"-left.png";
 //    B = new Bullet();
 }
    
@@ -80,22 +89,22 @@ public void movement(){
 public void kiri(){
         velX = -10;
         velY = 0;
-        gambarOrang="dudemini-left.png";
+        gambarOrang=randomOrang+"-left.png";
     }
     public void kanan(){
         velX = 10;
         velY = 0;
-        gambarOrang="dudemini-right.png";
+        gambarOrang=randomOrang+"-right.png";
     }
     public void atas(){
         velX = 0;
         velY = -10;
-        gambarOrang="dudemini-up.png";
+        gambarOrang=randomOrang+"-up.png";
     }
     public void bawah(){
         velX = 0;
         velY = 10;
-        gambarOrang="dudemini-down.png";
+        gambarOrang=randomOrang+"-down.png";
     }
     /*
     public void tembak() throws IOException{
