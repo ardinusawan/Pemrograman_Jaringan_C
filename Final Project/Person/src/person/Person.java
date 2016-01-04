@@ -25,9 +25,9 @@ public class Person implements Serializable{
     public int y=0;
     public int velX, velY;
     public int batas_atas = 0;
-    public int batas_bawah = 240;
+    public int batas_bawah = 250;
     public int batas_kiri = 0;
-    public int batas_kanan = 450;
+    public int batas_kanan = 490;
     public String gambarOrang;
     public boolean readyToFire = true, shoot = false;
     
