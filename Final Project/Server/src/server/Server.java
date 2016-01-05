@@ -16,7 +16,7 @@ public class Server {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-     new GUIServer().setVisible(true);
+        new GUIServer().setVisible(true);
 
     }
     

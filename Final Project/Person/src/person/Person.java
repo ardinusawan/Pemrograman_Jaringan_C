@@ -54,50 +54,51 @@ public class Person implements Serializable{
                 return "dudeminia";
     }    
     
-    public Person(String input){
+    public Person(String input) {
         this.nama=input;
         gambarOrang=randomOrang+"-left.png";
     }
 
-    public void batas(){
-        if(x>=batas_kanan){
+    public void batas() {
+        if(x>=batas_kanan) {
             x = batas_kiri+10;
         }
-        else if(x<=batas_kiri){
+        else if(x<=batas_kiri) {
             x = batas_kanan-10;
         }
-        if(y<=batas_atas){
+        if(y<=batas_atas) {
             y = batas_bawah-10;
         }
-        else if(y>=batas_bawah){
+        else if(y>=batas_bawah) {
             y = batas_atas+10;
         }
 
     }
 
-    public void movement(){
+    public void movement() {
        x = x + velX;
        y = y + velY;
     }
 
-    public void kiri(){
+    public void kiri() {
         velX = -10;
         velY = 0;
         gambarOrang=randomOrang+"-left.png";
     }
-    public void kanan(){
+    public void kanan() {
         velX = 10;
         velY = 0;
         gambarOrang=randomOrang+"-right.png";
     }
-    public void atas(){
+    public void atas() {
         velX = 0;
         velY = -10;
         gambarOrang=randomOrang+"-up.png";
     }
-    public void bawah(){
+    public void bawah() {
         velX = 0;
         velY = 10;
         gambarOrang=randomOrang+"-down.png";
     }
+    
 }

@@ -36,46 +36,45 @@ public class GUIClient2 extends javax.swing.JFrame {
     
     public class IncomingReader implements Runnable{
         GUIClient2 gui;
-        public IncomingReader(GUIClient2 gui){
+        public IncomingReader(GUIClient2 gui) {
             this.gui=gui;
         }
         @Override
-        public void run(){//edited
+        public void run() {//edited
             Object temp;
             Person tmp;
             try {
-                while((temp= ois.readObject())!=null){
+                while((temp= ois.readObject())!=null) {
                     System.out.println("got an input");
                     tmp=(Person) temp;
-                    if(tmp.signal==0){          //connect
+                    if(tmp.signal==0) {          //connect
                             chatTextArea.append(tmp.nama+" has joined the room.\n");
                             player.add(tmp);
                             writeUsers();//update list online
-                            if(tmp.nama.equals(me.nama)){
+                            if(tmp.nama.equals(me.nama)) {
                                 game1.gameLogin(gui);
                             }
-                            
                             repaint();
                     }
-                    else if(tmp.signal==1){     //chat
+                    else if(tmp.signal==1) {     //chat
                         chatTextArea.append(tmp.nama+": "+tmp.chat+"\n");
                     }
-                    else if(tmp.signal==2){     //move
-                        for(Person iter :player){
-                            if(iter.nama.equals(tmp.nama)){
-                                if(tmp.velX==-10){
+                    else if(tmp.signal==2) {     //move
+                        for(Person iter :player) {
+                            if(iter.nama.equals(tmp.nama)) {
+                                if(tmp.velX==-10) {
                                     iter.kiri();
                                     moved(iter);
                                 }
-                                else if(tmp.velX==10){
+                                else if(tmp.velX==10) {
                                     iter.kanan();
                                     moved(iter);
                                 }
-                                else if(tmp.velY==-10){
+                                else if(tmp.velY==-10) {
                                     iter.atas();
                                     moved(iter);
                                 }
-                                else if(tmp.velY==10){
+                                else if(tmp.velY==10) {
                                     iter.bawah();
                                     moved(iter);
                                 }
@@ -83,19 +82,19 @@ public class GUIClient2 extends javax.swing.JFrame {
                             game1.repaint();
                         }
                     }
-                    else if(tmp.signal==3){     //attack
+                    else if(tmp.signal==3) {     //attack
                         //todo attack
-                        for(Person iter:player){
-                            if(iter.nama.equals(tmp.nama)){
-                                if(tmp.readyToFire){
+                        for(Person iter:player) {
+                            if(iter.nama.equals(tmp.nama)) {
+                                if(tmp.readyToFire) {
                                     game1.Tembak(tmp.nama, tmp.x, tmp.y,tmp.gambarOrang,tmp.signal);
                                 } 
                             }game1.repaint();
                         }
                     }
-                    else if(tmp.signal==4){     //disconnect
-                        for(Person iter :player){
-                            if(iter.nama.equals(tmp.nama)){
+                    else if(tmp.signal==4) {     //disconnect
+                        for(Person iter :player) {
+                            if(iter.nama.equals(tmp.nama)) {
                                 player.remove(iter);    //apus 
                                 System.out.println(iter.nama + " has been disconnected.");
                                 chatTextArea.append(iter.nama + " has been disconnected.\n");
@@ -110,22 +109,21 @@ public class GUIClient2 extends javax.swing.JFrame {
                             }
                         }  
                     }
-                    else if(tmp.signal==5){             //skor
-                        for(Person iter: player){
-                            if(iter.nama.equals(tmp.nama)){
+                    else if(tmp.signal==5) {             //skor
+                        for(Person iter: player) {
+                            if(iter.nama.equals(tmp.nama)) {
                                 iter.score=tmp.score;
                                 System.out.println(iter.nama + " BERHASIL MENDAPATKAN SKOR: " + iter.score);
                             }
                         }
                     }
-                    else if(tmp.signal==-1){
+                    else if(tmp.signal==-1) {
                         chatTextArea.append("Disconnected from server.\n");
                         me.signal=-1;
                         SendToServer();
                     }
                     chatTextArea.setCaretPosition(chatTextArea.getDocument().getLength());
                 }
-                
             }catch (IOException ex) {
                 Logger.getLogger(GUIClient2.class.getName()).log(Level.SEVERE, null, ex);
             }catch (ClassNotFoundException ex) {
@@ -134,16 +132,18 @@ public class GUIClient2 extends javax.swing.JFrame {
         }
     } 
     
-    public void ListenThread(){//edited
+    public void ListenThread() {//edited
         Thread IncomingReader = new Thread (new GUIClient2.IncomingReader(this));
         IncomingReader.start();
     }
+    
     public void SendToServer() throws IOException{
         //semua pengiriman data nanti lewat sini
         ous.writeObject(me);
         ous.flush();
         ous.reset();
     }
+    
     public void SendToServerKill(Person die) throws IOException{
         //semua pengiriman data nanti lewat sini
         ous.writeObject(die);
@@ -151,9 +151,9 @@ public class GUIClient2 extends javax.swing.JFrame {
         ous.reset();
     }
     
-    public void writeUsers(){ //edited
+    public void writeUsers() { //edited
         onlineUsersArea.setText("");
-        for (Person iter:player){
+        for (Person iter:player) {
             onlineUsersArea.append(iter.nama + " (" + iter.score + ")\n");
             repaint();
         }
@@ -171,9 +171,9 @@ public class GUIClient2 extends javax.swing.JFrame {
     
     public void Die(Person die) throws IOException {
         System.out.println(die.nama+" >< "+ me.nama);
-        if(die.nama.equals(me.nama)){
+        if(die.nama.equals(me.nama)) {
             me.health--;
-            if (me.health == 0){
+            if (me.health == 0) {
                 System.out.println(me.nama+" died.");
                 chatTextArea.append(me.nama+" died.\n");
                 Disconnect();
@@ -380,7 +380,7 @@ public class GUIClient2 extends javax.swing.JFrame {
         // TODO add your handling code here:
         Object temp;
         // TODO add your handling code here:
-        if(isConnected == false){
+        if(isConnected == false) {
             username = usernameField.getText();
             serverIP = IPAddressField.getText();
             Port = Integer.parseInt(portField.getText());
@@ -392,7 +392,6 @@ public class GUIClient2 extends javax.swing.JFrame {
                 sock = new Socket(serverIP, Port);
                 ois = new ObjectInputStream(sock.getInputStream());
                 ous = new ObjectOutputStream(sock.getOutputStream());
-                //writer.println(username + ":has connected.:Connect");//
                 /**/
                 me=new Person(username);
                 me.signal=0;
@@ -406,12 +405,11 @@ public class GUIClient2 extends javax.swing.JFrame {
                 usernameField.setEditable(true);
                 IPAddressField.setEditable(true);
                 portField.setEditable(true);
-                //Logger.getLogger(GUIClient2.class.getName()).log(Level.SEVERE, null, ex);
             }
             ListenThread();
             
         }
-        else if(isConnected == true){
+        else if(isConnected == true) {
             chatTextArea.append("Server offline\n");
         }
     }//GEN-LAST:event_connectButtonActionPerformed
@@ -435,13 +433,13 @@ public class GUIClient2 extends javax.swing.JFrame {
         // TODO add your handling code here:
         int c = evt.getKeyCode();
         boolean isMoved=false, isShoot=false;
-        if(c==KeyEvent.VK_ENTER){
-            if(!isConnected){
+        if(c==KeyEvent.VK_ENTER) {
+            if(!isConnected) {
             chatTextArea.append("You are offline!\n");
             }
             else{
                 String nothing = "";
-                if((inputTextArea.getText()).equals(nothing)){
+                if((inputTextArea.getText()).equals(nothing)) {
                     inputTextArea.setText("");
                     inputTextArea.requestFocus();
                 }
@@ -462,32 +460,29 @@ public class GUIClient2 extends javax.swing.JFrame {
                 inputTextArea.requestFocus();
             }
         }
-        else if(c==KeyEvent.VK_LEFT){
+        else if(c==KeyEvent.VK_LEFT) {
             if(isConnected) me.kiri();
             isMoved=true;
         }
-        else if(c==KeyEvent.VK_RIGHT){
+        else if(c==KeyEvent.VK_RIGHT) {
             if(isConnected) me.kanan();
             isMoved=true;
             
         }
-        else if(c==KeyEvent.VK_UP){
+        else if(c==KeyEvent.VK_UP) {
             if(isConnected) me.atas();
-            isMoved=true;
-            //gambar();
-           
+            isMoved=true;  
         }
-        else if(c==KeyEvent.VK_DOWN){
+        else if(c==KeyEvent.VK_DOWN) {
             if(isConnected) me.bawah();
             isMoved=true;
         }
-        
-        else if(c==KeyEvent.VK_CONTROL){
-            if(isConnected) ;//me.tembak();
+        else if(c==KeyEvent.VK_CONTROL) {
+            if(isConnected);
             isShoot=true;
         }
             
-        if(isMoved){
+        if(isMoved) {
             try {
                 moved(me);
                 isMoved=false;
@@ -500,7 +495,7 @@ public class GUIClient2 extends javax.swing.JFrame {
                 Logger.getLogger(GUIClient2.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        if(isShoot){
+        if(isShoot) {
             try {
                 shoot(me);
             } catch (IOException ex) {
@@ -518,12 +513,12 @@ public class GUIClient2 extends javax.swing.JFrame {
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
         // TODO add your handling code here:
-        if(!isConnected){
+        if(!isConnected) {
             chatTextArea.append("You are offline!\n");
         }
         else{
             String nothing = "";
-            if((inputTextArea.getText()).equals(nothing)){
+            if((inputTextArea.getText()).equals(nothing)) {
                 inputTextArea.setText("");
                 inputTextArea.requestFocus();
             }
@@ -554,9 +549,9 @@ public class GUIClient2 extends javax.swing.JFrame {
         shootPerson.signal=3;
     }
     
-     public void tambahScore(String nama){
-        for(Person iter:player){
-            if(iter.nama.equals(nama)){
+     public void tambahScore(String nama) {
+        for(Person iter:player) {
+            if(iter.nama.equals(nama)) {
                 try {
                     iter.signal=5;
                     SendToServerKill(iter);

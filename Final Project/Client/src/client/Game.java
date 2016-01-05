@@ -24,7 +24,7 @@ import person.Person;
  *
  * @author ardi nusawan
  */
-public class Game extends JPanel implements KeyListener, ActionListener{
+public class Game extends JPanel implements KeyListener, ActionListener {
 
     //private Image dude;
     int signal_shoot =0;
@@ -39,25 +39,22 @@ public class Game extends JPanel implements KeyListener, ActionListener{
     public boolean loggedIn=false;
     String gambarOrang="pleaseLogin.png";
     
-    public Game(){
+    public Game() {
         super.setDoubleBuffered(true);
-        
         person = new Person("");
         t.start();
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
-        
     }
     
-    public void gameLogin(GUIClient2 gui)
-    {
+    public void gameLogin(GUIClient2 gui) {
         loggedIn=true;
         this.gui=gui;
         this.repaint();
     }
     
-    public void Tembak(String nama, int posX, int posY, String menghadap,int signal){
+    public void Tembak(String nama, int posX, int posY, String menghadap,int signal) {
        System.out.println("penembak : " + nama + " pos X : " + posX+ " pos Y : " + posY + " menghadap ke : " + menghadap + "signal_shoot : " + signal);
         signal_shoot = signal;
         penembak = nama;
@@ -67,60 +64,60 @@ public class Game extends JPanel implements KeyListener, ActionListener{
     }
     
     @Override
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         
-        if(!loggedIn){
+        if(!loggedIn) {
             ImageIcon ii = new ImageIcon(this.getClass().getResource(gambarOrang));
             Image dude = ii.getImage();
             Graphics2D g2d =(Graphics2D)g;
             g2d.drawImage(dude,person.x,person.y, this);
         }
-        else{
-            for(Person iter:gui.player){
+        else {
+            for(Person iter:gui.player) {
                 ImageIcon ii = new ImageIcon(this.getClass().getResource(iter.gambarOrang));
                 Image dude = ii.getImage();
                 Graphics2D g2d =(Graphics2D)g;
                 g2d.drawString(iter.nama, iter.x, iter.y);
                 g2d.drawImage(dude,iter.x,iter.y, this);
                 
-                if(signal_shoot==3){
-                    if(menghadap.endsWith("-right.png")){
+                if(signal_shoot==3) {
+                    if(menghadap.endsWith("-right.png")) {
                         ImageIcon iii = new ImageIcon(this.getClass().getResource("bulletmini_right.png"));
                         Image bullet = iii.getImage();
                         Graphics2D g2dd =(Graphics2D)g;
                         g2dd.drawImage(bullet,posX_shoot+1,posY_shoot, this);
-                        if(posX_shoot<=person.batas_kanan+50){
+                        if(posX_shoot<=person.batas_kanan+50) {
                             posX_shoot++;
                         }
                     }
-                    else if(menghadap.endsWith("-left.png")){
+                    else if(menghadap.endsWith("-left.png")) {
                         ImageIcon iii = new ImageIcon(this.getClass().getResource("bulletmini_left.png"));
                         Image bullet = iii.getImage();
                         Graphics2D g2dd =(Graphics2D)g;
                         g2dd.drawImage(bullet,posX_shoot-1,posY_shoot, this);
                         
-                        if(posX_shoot>=person.batas_kiri-50){
+                        if(posX_shoot>=person.batas_kiri-50) {
                             posX_shoot--;
                         }
                     }
 
-                    else if(menghadap.endsWith("-up.png")){
+                    else if(menghadap.endsWith("-up.png")) {
                         ImageIcon iii = new ImageIcon(this.getClass().getResource("bulletmini_up.png"));
                         Image bullet = iii.getImage();
                         Graphics2D g2dd =(Graphics2D)g;
                         g2dd.drawImage(bullet,posX_shoot,posY_shoot-1, this);
-                        if(posY_shoot>=person.batas_atas-50){
+                        if(posY_shoot>=person.batas_atas-50) {
                             posY_shoot--;
                         }
                     }
                     
-                    else if(menghadap.endsWith("-down.png")){
+                    else if(menghadap.endsWith("-down.png")) {
                         ImageIcon iii = new ImageIcon(this.getClass().getResource("bulletmini_down.png"));
                         Image bullet = iii.getImage();
                         Graphics2D g2dd =(Graphics2D)g;
                         g2dd.drawImage(bullet,posX_shoot,posY_shoot+1, this);
-                        if(posY_shoot<=person.batas_bawah+80){
+                        if(posY_shoot<=person.batas_bawah+80) {
                             posY_shoot++;
                         }
                     }
@@ -153,4 +150,3 @@ public class Game extends JPanel implements KeyListener, ActionListener{
     }
     
 }
-

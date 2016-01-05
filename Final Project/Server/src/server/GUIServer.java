@@ -33,7 +33,7 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
     GUIServer server;
     boolean done=false;
     
-    public ClientHandler(Socket clientSocket,GUIServer server){
+    public ClientHandler(Socket clientSocket,GUIServer server) {
         this.server=server;
         try {
             sock = clientSocket;
@@ -50,13 +50,13 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
     }
     
     @Override
-    public void run(){
+    public void run() {
             /**/
-            while(!done){
+            while(!done) {
                 try {
                     Object temp = ois.readObject();
                     tmp=(Person) temp;
-                    if(tmp.signal==0){          //connect
+                    if(tmp.signal==0) {          //connect
                         for(Person iter:player)
                         {   
                             System.out.println(iter.nama+":"+iter.x+" "+iter.y);
@@ -69,29 +69,29 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
                         player.add(tmp);
                         SendToClient(tmp);                     
                     } 
-                    else if(tmp.signal==1){     //chat
+                    else if(tmp.signal==1) {     //chat
                         SendToClient(tmp);
                     }
-                    else if(tmp.signal==2){     //move
+                    else if(tmp.signal==2) {     //move
                         
-                        for(Person iter :player){
-                            if(iter.nama.equals(tmp.nama)){
-                                if(tmp.velX==-10){
+                        for(Person iter :player) {
+                            if(iter.nama.equals(tmp.nama)) {
+                                if(tmp.velX==-10) {
                                     iter.velX = -10;
                                     iter.velY = 0;
                                     moved(iter);
                                 }
-                                else if(tmp.velX==10){
+                                else if(tmp.velX==10) {
                                     iter.velX = 10;
                                     iter.velY = 0;
                                     moved(iter);
                                 }
-                                else if(tmp.velY==-10){
+                                else if(tmp.velY==-10) {
                                     iter.velX = 0;
                                     iter.velY = -10;
                                     moved(iter);
                                 }
-                                else if(tmp.velY==10){
+                                else if(tmp.velY==10) {
                                     iter.velX = 0;
                                     iter.velY = 10;
                                     moved(iter);
@@ -102,10 +102,10 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
                             }
                         }
                     }
-                    else if(tmp.signal==3){
-                        for(Person iter:player){
-                            if(iter.nama.equals(tmp.nama)){
-                                if(tmp.readyToFire && tmp.shoot){
+                    else if(tmp.signal==3) {
+                        for(Person iter:player) {
+                            if(iter.nama.equals(tmp.nama)) {
+                                if(tmp.readyToFire && tmp.shoot) {
                                     iter.shoot=true;
 //                                    shoot(iter);
                                 }
@@ -116,9 +116,9 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
 
                         }
                     }
-                    else if(tmp.signal==4){     //dc
-                        for(Person iter :player){
-                            if(iter.nama.equals(tmp.nama)){
+                    else if(tmp.signal==4) {     //dc
+                        for(Person iter :player) {
+                            if(iter.nama.equals(tmp.nama)) {
                                 SendToClient(tmp);
                                  
                                 sock.close();
@@ -130,18 +130,18 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
                             }
                         }
                     }
-                    else if(tmp.signal==5){
-                        for(Person iter :player){
-                            if(iter.nama.equals(tmp.nama)){
+                    else if(tmp.signal==5) {
+                        for(Person iter :player) {
+                            if(iter.nama.equals(tmp.nama)) {
                                 iter.score+=10;
                                 iter.signal=5;
                                 SendToClient(iter);
                             }
                         }
                     }
-                    else if(tmp.signal==-1){
-                        for(Person iter :player){
-                            if(iter.nama.equals(tmp.nama)){
+                    else if(tmp.signal==-1) {
+                        for(Person iter :player) {
+                            if(iter.nama.equals(tmp.nama)) {
                                 //SendToClient(tmp);
                                 tmp.signal=4;
                                 send(tmp); 
@@ -303,14 +303,14 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
     }
     
     @Override
-    public void run(){
+    public void run() {
         try {
             serverSock = new ServerSocket(5000);
-            while(true){
+            while(true) {
                 Socket clientSock = serverSock.accept();
                 ClientHandler ch;
                 ch = new ClientHandler(clientSock,this);
-                synchronized(client){
+                synchronized(client) {
                     client.add(ch);
                 }
                 Thread listener = new Thread(ch);
@@ -322,12 +322,12 @@ public class GUIServer extends javax.swing.JFrame implements Runnable{
         }
     }
   
-    public void Disconnect(ClientHandler toStop){
+    public void Disconnect(ClientHandler toStop) {
         client.remove(toStop);
     }
     
     public synchronized void SendToClient(Person message) throws IOException{
-        for(ClientHandler iter:client){
+        for(ClientHandler iter:client) {
             outputPane.append("Sending a Message\n");
             iter.send(message);
             outputPane.setCaretPosition(outputPane.getDocument().getLength());
